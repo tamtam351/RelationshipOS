@@ -13,30 +13,20 @@
  *
  * Every activity here is written for a long-distance couple who
  * haven't met in person yet but are planning to — everything works
- * over video call, voice note, or text. Nothing assumes being in the
- * same room (no hand-holding, no passing a phone across a table).
+ * over video call, voice note, or text. Nothing assumes being in
+ * the same room (no hand-holding, no passing a phone across a table).
  */
 
 const API_KEY = import.meta.env.VITE_AI_API_KEY || ''
 const BASE_URL = import.meta.env.VITE_AI_BASE_URL || ''
 const MODEL = import.meta.env.VITE_AI_MODEL || ''
 
-/** Large free offline pool — feisty, bonding, competitive, chaotic, and distance-aware */
+/** Large free offline pool — sensual, intimate, and designed for pre-meeting tension */
 const POOL = [
   // ==========================================
-  // CHAOS (80 items)
+  // CHAOS (80 items) — Playful, flirty chaos with sexual undertones
   // ==========================================
-  { category: 'CHAOS', title: 'Emoji Courtroom', description: 'One person makes a ridiculous accusation using only emojis. The other defends with words only. Judge decides.', duration: '5 minutes', emoji: '😂' },
-  { category: 'CHAOS', title: 'Screen Roulette', description: 'Share your screen for 60 seconds and open a random app. Read the first thing you see out loud. No closing it early.', duration: '2 minutes', emoji: '📱' },
-  { category: 'CHAOS', title: 'Accent Only', description: 'Both of you must speak in a terrible accent for the rest of the call. First one who breaks character loses.', duration: '5 minutes', emoji: '🎭' },
-  { category: 'CHAOS', title: 'Wrong Answers Only', description: 'Ask each other 5 normal questions. You can only answer incorrectly. Be dramatic about it.', duration: '6 minutes', emoji: '🙃' },
-  { category: 'CHAOS', title: 'Silent Movie', description: 'On camera, act out your last small disagreement using only gestures and facial expressions. No words. Guess what the other meant.', duration: '4 minutes', emoji: '🎬' },
-  { category: 'CHAOS', title: 'Pet Names Extreme', description: 'Call each other the most absurd pet names you can invent for 3 minutes straight. Escalate until someone cracks.', duration: '3 minutes', emoji: '🐸' },
-  { category: 'CHAOS', title: 'Backwards Day', description: 'Do the next small thing completely backwards — talk in reverse word order, or narrate your room right to left. Partner judges the performance.', duration: '3 minutes', emoji: '🔄' },
-  { category: 'CHAOS', title: 'Conspiracy Board', description: 'Pick a tiny random event from today. Build a wild conspiracy theory about why it happened. Present your evidence.', duration: '7 minutes', emoji: '🕵️' },
-  { category: 'CHAOS', title: 'Voice Note Mystery', description: 'Send a deliberately cryptic voice note about your day using no real details. Partner has to guess what actually happened.', duration: '4 minutes', emoji: '🎙️' },
-  { category: 'CHAOS', title: 'Reporter Mode', description: 'Whatever filter or effect looks weirdest right now, put it on and read today\'s top headline like a breaking news anchor.', duration: '3 minutes', emoji: '📺' },
-  { category: 'CHAOS', title: 'Strip Questionnaire', description: 'Ask each other increasingly personal questions. For every answer you refuse to give, remove one item of clothing. No lying allowed.', duration: '10 minutes', emoji: '🎲' },
+  { category: 'CHAOS', title: 'Strip Questionnaire', description: 'Ask each other increasingly personal questions. For every answer you refuse, remove one item of clothing. No lying allowed.', duration: '15 minutes', emoji: '🎲' },
   { category: 'CHAOS', title: 'Voice Note Confessional', description: 'Send a 60-second voice note describing your most recent NSFW thought about them. No filtering.', duration: '3 minutes', emoji: '🔥' },
   { category: 'CHAOS', title: 'Filter Roulette', description: 'Apply random beauty filters and take turns saying the dirtiest thing you can while looking ridiculous. First to laugh loses.', duration: '5 minutes', emoji: '👻' },
   { category: 'CHAOS', title: 'Screenshot Dare', description: 'Share your most recent search history screenshot. Partner picks one thing to ask about in detail.', duration: '4 minutes', emoji: '📱' },
@@ -60,6 +50,16 @@ const POOL = [
   { category: 'CHAOS', title: 'Lock Screen Reveal', description: 'Show your lock screen and home screen. Partner guesses your last three searches.', duration: '4 minutes', emoji: '🔓' },
   { category: 'CHAOS', title: 'Bedtime Story: Adult', description: 'Invent a very short, very adult bedtime story. Read it like you\'re narrating a children\'s book.', duration: '5 minutes', emoji: '📚' },
   { category: 'CHAOS', title: 'Reaction Test', description: 'Send each other one photo from your camera roll that you\'ve never shared. Describe your first reaction.', duration: '5 minutes', emoji: '🎭' },
+  { category: 'CHAOS', title: 'Accent Only', description: 'Both of you must speak in a terrible accent for the rest of the call. First one who breaks character loses.', duration: '5 minutes', emoji: '🎭' },
+  { category: 'CHAOS', title: 'Wrong Answers Only', description: 'Ask each other 5 normal questions. You can only answer incorrectly. Be dramatic about it.', duration: '6 minutes', emoji: '🙃' },
+  { category: 'CHAOS', title: 'Silent Movie', description: 'On camera, act out your last small disagreement using only gestures and facial expressions. No words. Guess what the other meant.', duration: '4 minutes', emoji: '🎬' },
+  { category: 'CHAOS', title: 'Pet Names Extreme', description: 'Call each other the most absurd pet names you can invent for 3 minutes straight. Escalate until someone cracks.', duration: '3 minutes', emoji: '🐸' },
+  { category: 'CHAOS', title: 'Backwards Day', description: 'Do the next small thing completely backwards — talk in reverse word order, or narrate your room right to left. Partner judges the performance.', duration: '3 minutes', emoji: '🔄' },
+  { category: 'CHAOS', title: 'Conspiracy Board', description: 'Pick a tiny random event from today. Build a wild conspiracy theory about why it happened. Present your evidence.', duration: '7 minutes', emoji: '🕵️' },
+  { category: 'CHAOS', title: 'Voice Note Mystery', description: 'Send a deliberately cryptic voice note about your day using no real details. Partner has to guess what actually happened.', duration: '4 minutes', emoji: '🎙️' },
+  { category: 'CHAOS', title: 'Reporter Mode', description: 'Whatever filter or effect looks weirdest right now, put it on and read today\'s top headline like a breaking news anchor.', duration: '3 minutes', emoji: '📺' },
+  { category: 'CHAOS', title: 'Emoji Courtroom', description: 'One person makes a ridiculous accusation using only emojis. The other defends with words only. Judge decides.', duration: '5 minutes', emoji: '😂' },
+  { category: 'CHAOS', title: 'Screen Roulette', description: 'Share your screen for 60 seconds and open a random app. Read the first thing you see out loud. No closing it early.', duration: '2 minutes', emoji: '📱' },
   { category: 'CHAOS', title: 'Chaos Cooking', description: 'Both start "cooking" an imaginary meal with whatever you have. Describe each step. Make it weird.', duration: '6 minutes', emoji: '👨‍🍳' },
   { category: 'CHAOS', title: 'Opposite Day', description: 'Everything you say must mean the opposite. First to mess up does a silly dance.', duration: '5 minutes', emoji: '🔀' },
   { category: 'CHAOS', title: 'Interpretive Dance', description: 'Put on a song and do an interpretive dance to your day. Partner guesses what happened.', duration: '5 minutes', emoji: '💃' },
@@ -94,24 +94,9 @@ const POOL = [
   { category: 'CHAOS', title: 'Chaos Weather', description: 'Give a weather report for their emotional state. Be specific.', duration: '3 minutes', emoji: '🌤️' },
   { category: 'CHAOS', title: 'Shadow Puppet', description: 'Make shadow puppets with your hands. Tell a short story.', duration: '4 minutes', emoji: '🌑' },
   { category: 'CHAOS', title: 'Chaos Cooking Show', description: 'Host a cooking show with imaginary ingredients. Get chaotic.', duration: '5 minutes', emoji: '🍳' },
-  { category: 'CHAOS', title: 'Swap Accents', description: 'Try to do each other\'s natural accent. Be terrible at it.', duration: '4 minutes', emoji: '🌍' },
-  { category: 'CHAOS', title: 'Chaos News Anchor', description: 'Read a random Reddit thread like it\'s serious news.', duration: '4 minutes', emoji: '📡' },
-  { category: 'CHAOS', title: 'Build a Monster', description: 'Each describe a body part. Combine into one monster. Name it.', duration: '5 minutes', emoji: '🧟' },
-  { category: 'CHAOS', title: 'Chaos Yoga', description: 'Invent yoga poses with ridiculous names. Demonstrate.', duration: '5 minutes', emoji: '🧘‍♀️' },
-  { category: 'CHAOS', title: 'Rap Battle', description: 'Freestyle rap about your day. Roasting encouraged.', duration: '4 minutes', emoji: '🎤' },
-  { category: 'CHAOS', title: 'Chaos Spa', description: 'Give yourself a "spa treatment" with household items. Narrate.', duration: '5 minutes', emoji: '🧖' },
-  { category: 'CHAOS', title: 'The Floor is Lava', description: 'Navigate your room without touching the floor. Narrate the adventure.', duration: '4 minutes', emoji: '🌋' },
-  { category: 'CHAOS', title: 'Chaos ASMR', description: 'Make the weirdest sounds possible with objects near you.', duration: '4 minutes', emoji: '🔊' },
-  { category: 'CHAOS', title: 'Swap Lives', description: 'Describe your day as if you were them. They do the same.', duration: '5 minutes', emoji: '🔁' },
-  { category: 'CHAOS', title: 'Chaos Documentary', description: 'Narrate their current pose like it\'s a nature documentary.', duration: '3 minutes', emoji: '🦁' },
-  { category: 'CHAOS', title: 'Invent a Holiday', description: 'Create a holiday. What\'s it celebrating? How do you observe it?', duration: '5 minutes', emoji: '🎉' },
-  { category: 'CHAOS', title: 'Chaos Auction', description: 'Auction off items in your room. Start bidding wars.', duration: '5 minutes', emoji: '🔨' },
-  { category: 'CHAOS', title: 'Ghost Hunter', description: 'Your room is haunted. Find "evidence" and present it.', duration: '5 minutes', emoji: '👻' },
-  { category: 'CHAOS', title: 'Chaos Science', description: 'Explain how something works completely incorrectly. They believe it.', duration: '4 minutes', emoji: '🔬' },
-  { category: 'CHAOS', title: 'Secret Handshake', description: 'Invent a complex handshake through the screen. Practice it.', duration: '4 minutes', emoji: '🤝' },
 
   // ==========================================
-  // GAME (80 items)
+  // GAME (80 items) — Flirty games with intimate stakes
   // ==========================================
   { category: 'GAME', title: 'Lie Detector', description: 'Ask three questions. Two truths, one lie. Partner has to catch the lie — explain your reasoning after.', duration: '8 minutes', emoji: '🕵️' },
   { category: 'GAME', title: 'Finish My Sentence', description: 'Start a sentence about your relationship. Partner finishes it in the most dramatic way possible.', duration: '5 minutes', emoji: '🎭' },
@@ -177,21 +162,9 @@ const POOL = [
   { category: 'GAME', title: 'The Photo Challenge', description: 'Take a photo matching their pose. Compare.', duration: '4 minutes', emoji: '📸' },
   { category: 'GAME', title: 'The Voice Challenge', description: 'Say a phrase in different emotions. They guess the emotion.', duration: '5 minutes', emoji: '🎭' },
   { category: 'GAME', title: 'The Freeze Frame', description: 'Freeze in a pose. They describe what you look like you\'re doing.', duration: '3 minutes', emoji: '📷' },
-  { category: 'GAME', title: 'The Reverse Charades', description: 'They act out, you guess. But you can\'t see them—they describe their actions.', duration: '5 minutes', emoji: '🎪' },
-  { category: 'GAME', title: 'The Timeline Game', description: 'Put events from your relationship in order. Fastest wins.', duration: '6 minutes', emoji: '⏳' },
-  { category: 'GAME', title: 'The Association Game', description: 'Say a word, they say what it reminds them of. Keep the chain.', duration: '5 minutes', emoji: '💭' },
-  { category: 'GAME', title: 'The Number Game', description: 'Think of a number 1-100. They have 7 guesses. Hot/cold hints.', duration: '4 minutes', emoji: '🔢' },
-  { category: 'GAME', title: 'The Riddle Off', description: 'Take turns telling riddles. First one stumped loses.', duration: '8 minutes', emoji: '🧩' },
-  { category: 'GAME', title: 'The Impersonation Game', description: 'Do an impression of someone famous. They guess who.', duration: '6 minutes', emoji: '🎤' },
-  { category: 'GAME', title: 'The Object Game', description: 'Grab an object. They have 20 questions to guess it.', duration: '7 minutes', emoji: '🔍' },
-  { category: 'GAME', title: 'The Color Game', description: 'Name a color. They name something that color. Keep going.', duration: '4 minutes', emoji: '🎨' },
-  { category: 'GAME', title: 'The Movie Game', description: 'Describe a movie plot badly. They guess the movie.', duration: '6 minutes', emoji: '🎬' },
-  { category: 'GAME', title: 'The Accent Game', description: 'Speak in an accent. They guess which one.', duration: '5 minutes', emoji: '🌍' },
-  { category: 'GAME', title: 'The Sound Game', description: 'Make a sound. They guess what it is.', duration: '4 minutes', emoji: '🔊' },
-  { category: 'GAME', title: 'The Mirror Game', description: 'Mirror each other\'s movements with delay. Sync up.', duration: '4 minutes', emoji: '🪞' },
 
   // ==========================================
-  // COMPETITIVE (80 items)
+  // COMPETITIVE (80 items) — Sexy stakes, intimate challenges
   // ==========================================
   { category: 'COMPETITIVE', title: 'Stare Off', description: 'First one to laugh or look away from the camera loses. Winner demands one silly favor right now.', duration: '2 minutes', emoji: '👀' },
   { category: 'COMPETITIVE', title: 'Rock Paper Scissors Streak', description: 'Best of 7, hands up to the camera. Loser has to give a 30-second dramatic apology speech.', duration: '4 minutes', emoji: '✊' },
@@ -250,35 +223,9 @@ const POOL = [
   { category: 'COMPETITIVE', title: 'The Debate Contest', description: 'Debate a silly topic. Best argument wins.', duration: '7 minutes', emoji: '🏛️' },
   { category: 'COMPETITIVE', title: 'The Reaction Test', description: 'Show something surprising. Best reaction wins.', duration: '3 minutes', emoji: '😲' },
   { category: 'COMPETITIVE', title: 'The Description Duel', description: 'Describe something in detail. Most vivid wins.', duration: '5 minutes', emoji: '📝' },
-  { category: 'COMPETITIVE', title: 'The Counting Race', description: 'Count to 20. Fastest wins. No rushing.', duration: '2 minutes', emoji: '🔢' },
-  { category: 'COMPETITIVE', title: 'The Silence Contest', description: 'First to speak loses. Winner gets a wish.', duration: '5 minutes', emoji: '🤫' },
-  { category: 'COMPETITIVE', title: 'The Blink Battle', description: 'Stare until someone blinks. Winner chooses movie.', duration: '4 minutes', emoji: '👀' },
-  { category: 'COMPETITIVE', title: 'The Breath Hold', description: 'Hold your breath. Longest wins.', duration: '3 minutes', emoji: '🫁' },
-  { category: 'COMPETITIVE', title: 'The Tongue Twister', description: 'Say tongue twisters. First to mess up loses.', duration: '4 minutes', emoji: '👅' },
-  { category: 'COMPETITIVE', title: 'The Mirror Challenge', description: 'Mirror their movements perfectly. Longest sync wins.', duration: '4 minutes', emoji: '🪞' },
-  { category: 'COMPETITIVE', title: 'The Alphabet Race', description: 'Say the alphabet backwards. Fastest wins.', duration: '2 minutes', emoji: '🔤' },
-  { category: 'COMPETITIVE', title: 'The Number Recall', description: 'Remember a sequence of numbers. Longest sequence wins.', duration: '5 minutes', emoji: '🧮' },
-  { category: 'COMPETITIVE', title: 'The Color Naming', description: 'Name colors rapidly. First to repeat loses.', duration: '4 minutes', emoji: '🎨' },
-  { category: 'COMPETITIVE', title: 'The Animal Sounds', description: 'Make animal sounds. Best impression wins.', duration: '4 minutes', emoji: '🐾' },
-  { category: 'COMPETITIVE', title: 'The Face Making', description: 'Make the weirdest face. Most creative wins.', duration: '3 minutes', emoji: '😜' },
-  { category: 'COMPETITIVE', title: 'The Finger Dance', description: 'Dance with just your fingers. Best routine wins.', duration: '3 minutes', emoji: '👆' },
-  { category: 'COMPETITIVE', title: 'The Shadow Puppet', description: 'Make shadow puppets. Best one wins.', duration: '4 minutes', emoji: '🌑' },
-  { category: 'COMPETITIVE', title: 'The Speed Cleaning', description: 'Clean one thing fastest. Show results.', duration: '3 minutes', emoji: '🧹' },
-  { category: 'COMPETITIVE', title: 'The Object Balance', description: 'Balance something on your head. Longest wins.', duration: '4 minutes', emoji: '⚖️' },
-  { category: 'COMPETITIVE', title: 'The Word Association', description: 'Fastest association wins. No hesitation.', duration: '4 minutes', emoji: '⚡' },
-  { category: 'COMPETITIVE', title: 'The Category Naming', description: 'Name items in a category. Most wins.', duration: '4 minutes', emoji: '📋' },
-  { category: 'COMPETITIVE', title: 'The Spelling Bee', description: 'Spell difficult words. Most correct wins.', duration: '5 minutes', emoji: '🐝' },
-  { category: 'COMPETITIVE', title: 'The Math Challenge', description: 'Solve math problems mentally. Fastest wins.', duration: '4 minutes', emoji: '🔢' },
-  { category: 'COMPETITIVE', title: 'The Reaction Speed', description: 'First to react to a cue wins. Best of 10.', duration: '3 minutes', emoji: '⚡' },
-  { category: 'COMPETITIVE', title: 'The Balance Test', description: 'Stand on one leg longest. Winner picks activity.', duration: '4 minutes', emoji: '🦩' },
-  { category: 'COMPETITIVE', title: 'The Eye Contact', description: 'Maintain eye contact. First to look away loses.', duration: '3 minutes', emoji: '👁️' },
-  { category: 'COMPETITIVE', title: 'The Whisper Challenge', description: 'Whisper a phrase. They guess. Most correct wins.', duration: '5 minutes', emoji: '🤫' },
-  { category: 'COMPETITIVE', title: 'The Drawing Speed', description: 'Draw something fastest. Recognizable art wins.', duration: '3 minutes', emoji: '✏️' },
-  { category: 'COMPETITIVE', title: 'The Caption Contest', description: 'Caption a random photo. Best caption wins.', duration: '4 minutes', emoji: '📝' },
-  { category: 'COMPETITIVE', title: 'The Mimic Speed', description: 'Mimic something quickly. Fastest correct guess wins.', duration: '4 minutes', emoji: '🎭' },
 
   // ==========================================
-  // SWEET (80 items)
+  // SWEET (80 items) — Tender intimacy, emotional closeness
   // ==========================================
   { category: 'SWEET', title: 'Tiny Confession', description: 'Say one small thing you noticed about them this week — from a text, a call, a photo — that made you smile. No big speeches.', duration: '3 minutes', emoji: '✨' },
   { category: 'SWEET', title: 'Favorite Version', description: 'Describe your favorite version of them — a specific call, message, or mood. Be specific.', duration: '4 minutes', emoji: '💫' },
@@ -294,7 +241,7 @@ const POOL = [
   { category: 'SWEET', title: 'Trust Exercise', description: 'Share one vulnerability you haven\'t shown yet. The other listens without fixing, just holds it.', duration: '6 minutes', emoji: '🤝' },
   { category: 'SWEET', title: 'Safe Word', description: 'Discuss what safety looks like for you. Pick words that mean pause and continue.', duration: '8 minutes', emoji: '🔒' },
   { category: 'SWEET', title: 'Gentle Reminder', description: 'Tell them one way they\'ve been gentle with you from far away that mattered.', duration: '4 minutes', emoji: '🕊️' },
-  { category: 'SWEET', title: 'The Soft Hours', description: 'Describe what your "soft hours" look like—when you\'re most vulnerable and what you need then.', duration: '6 minutes', emoji: '🌙' },
+  { category: 'SWEET', title: 'The Soft Hours', description: 'Describe your "soft hours"—when you\'re most vulnerable and what you need then.', duration: '6 minutes', emoji: '🌙' },
   { category: 'SWEET', title: 'Unconditional', description: 'Name one thing about them that you find beautiful that they might be insecure about.', duration: '4 minutes', emoji: '💎' },
   { category: 'SWEET', title: 'The Afterglow', description: 'Imagine the morning after a perfect day together. What does slow intimacy look like?', duration: '6 minutes', emoji: '☀️' },
   { category: 'SWEET', title: 'Naked Truth', description: 'Share one thing you\'re still learning to love about yourself. Let them witness it.', duration: '5 minutes', emoji: '🪞' },
@@ -318,7 +265,7 @@ const POOL = [
   { category: 'SWEET', title: 'Weather Report', description: 'Tell them the weather there. It\'s a way of sharing your sky.', duration: '2 minutes', emoji: '🌤️' },
   { category: 'SWEET', title: 'The Translation', description: 'Teach them "I miss you" or "I love you" in your language. Practice.', duration: '3 minutes', emoji: '🗣️' },
   { category: 'SWEET', title: 'Shared Playlist', description: 'Add one song to a shared playlist. Explain why it made you think of them.', duration: '4 minutes', emoji: '🎵' },
-  { category: 'SWEET', title: 'The Souvenir', description: 'Show something small you\'ll give them when you meet. Tell its story.', duration: '4 minutes', emoji: '🎁' },
+  { category: 'SWEET', title: 'The Souvenir', description: 'Pick one object you\'ll give them when you meet. Describe it and why you chose it.', duration: '4 minutes', emoji: '🎁' },
   { category: 'SWEET', title: 'Coffee Date', description: 'Make coffee or tea together on camera. Share the ritual.', duration: '10 minutes', emoji: '☕' },
   { category: 'SWEET', title: 'The Highlight', description: 'Share the best part of your day, even if it was small.', duration: '3 minutes', emoji: '⭐' },
   { category: 'SWEET', title: 'Soft Compliment', description: 'Give a compliment that feels like a blanket. Warm, enveloping, soft.', duration: '3 minutes', emoji: '🛁' },
@@ -360,7 +307,7 @@ const POOL = [
   { category: 'SWEET', title: 'The Home', description: 'Describe what "home" feels like with them. Not a place, a feeling.', duration: '5 minutes', emoji: '🏡' },
 
   // ==========================================
-  // DEEP (80 items) - LESS SEXUAL, MORE EMOTIONAL/PSYCHOLOGICAL
+  // DEEP (80 items) — Emotional/psychological intimacy
   // ==========================================
   { category: 'DEEP', title: 'Future Snapshot', description: 'Describe one ordinary Tuesday five years from now — once you\'re finally in the same city. Include what the other is doing in that scene.', duration: '6 minutes', emoji: '🔮' },
   { category: 'DEEP', title: 'Unsaid Thing', description: 'Share one thing you almost said to them recently but didn\'t. Keep it honest and short.', duration: '4 minutes', emoji: '💬' },
@@ -442,7 +389,7 @@ const POOL = [
   { category: 'DEEP', title: 'The End', description: 'What would a good ending look like? Not the relationship—just this chapter.', duration: '7 minutes', emoji: '🔚' },
 
   // ==========================================
-  // SPICY (80 items) - LESS EXPLICIT, MORE FLIRTY/PLAYFUL
+  // SPICY (80 items) — Flirty, sensual, sexual tension without being too explicit
   // ==========================================
   { category: 'SPICY', title: 'Rate That Memory', description: 'Name a shared memory from a call or trip you\'re planning. Partner rates how hot / chaotic / soft it was on a 1–10 and explains why.', duration: '5 minutes', emoji: '🔥' },
   { category: 'SPICY', title: 'First Notice', description: 'What was the first thing you noticed about them online that made you curious? Be honest.', duration: '3 minutes', emoji: '👀' },
@@ -491,7 +438,7 @@ const POOL = [
   { category: 'SPICY', title: 'The Smile', description: 'Smile at them—but slowly. Let it build. Let them wonder what you\'re thinking.', duration: '3 minutes', emoji: '😏' },
   { category: 'SPICY', title: 'The Wink', description: 'Wink at them. Hold it. Make it mean something.', duration: '2 minutes', emoji: '😉' },
   { category: 'SPICY', title: 'The Bite', description: 'Bite something—lip, finger, fruit. Make them watch.', duration: '3 minutes', emoji: '🍎' },
-  { category: 'SPICY', title: 'The Stretch', description: 'Arch your back in a stretch. Hold it. Let them look.', duration: '3 minutes', emoji: '🐈' },
+  { category: 'SPICY', title: 'The Arch', description: 'Arch your back in a stretch. Hold it. Let them look.', duration: '3 minutes', emoji: '🐈' },
   { category: 'SPICY', title: 'The Adjustment', description: 'Adjust your clothing slowly. Make it deliberate.', duration: '3 minutes', emoji: '👔' },
   { category: 'SPICY', title: 'The Glance Away', description: 'Look at them, then glance away bashfully. Look back.', duration: '2 minutes', emoji: '👀' },
   { category: 'SPICY', title: 'The Hair Flip', description: 'Flip your hair. Simple. Classic. Effective.', duration: '2 minutes', emoji: '💁' },
@@ -528,7 +475,7 @@ const POOL = [
   { category: 'SPICY', title: 'The Tease', description: 'Start to say something. Stop. Smile. Make them beg.', duration: '4 minutes', emoji: '🙊' },
 
   // ==========================================
-  // RANDOM (80 items)
+  // RANDOM (80 items) — Unexpected, varied, authentic
   // ==========================================
   { category: 'RANDOM', title: 'Highs & Lows', description: 'Share the highest and lowest moment of your day in under a minute each. No advice unless asked.', duration: '4 minutes', emoji: '📈' },
   { category: 'RANDOM', title: 'Desert Island Three', description: 'If you two finally lived in the same place and could only unpack 3 things first, what would they be? Debate the list.', duration: '6 minutes', emoji: '🏝️' },
@@ -607,14 +554,14 @@ const POOL = [
   { category: 'RANDOM', title: 'The Most Likely To', description: 'Most likely to what? Take turns.', duration: '6 minutes', emoji: '📊' },
 
   // ==========================================
-  // ROMANTIC (80 items)
+  // ROMANTIC (80 items) — Classic romance, longing, future dreams
   // ==========================================
   { category: 'ROMANTIC', title: 'Eyes Closed, Together', description: 'On camera, both close your eyes for 60 seconds like you\'re just sitting in the same room. Open them and say the first true thing that comes up.', duration: '3 minutes', emoji: '👁' },
   { category: 'ROMANTIC', title: 'Hand to the Screen', description: 'Hold your hand up to the camera like you\'re holding theirs. Tell a short story about the first time you knew this might be real.', duration: '5 minutes', emoji: '🤝' },
   { category: 'ROMANTIC', title: 'Slow Question', description: 'Ask: "When do you feel most loved by me, even from this far away?" Listen fully. No fixing, just receive it.', duration: '6 minutes', emoji: '🌙' },
   { category: 'ROMANTIC', title: 'Quiet Together', description: 'Stay on camera in silence for two minutes, no talking unless one of you needs to. Just be in the same space, however far apart.', duration: '2 minutes', emoji: '🤍' },
   { category: 'ROMANTIC', title: 'Long-Distance Toast', description: 'Make a tiny toast to something only the two of you understand. Clink whatever you\'re holding — glasses, mugs, whatever\'s closest.', duration: '3 minutes', emoji: '🥂' },
-  { category: 'ROMANTIC', title: 'Letter in Five Lines', description: 'Each write a 5-line love note on your phone. Send it over and read it silently, then one line out loud.', duration: '7 minutes', emoji: '💌' },
+  { category: 'ROMANTIC', title: 'Letter in Five Lines', description: 'Each write a 5-line love note on your phone, then send it over and read it silently, then one line out loud.', duration: '7 minutes', emoji: '💌' },
   { category: 'ROMANTIC', title: 'The Promise', description: 'Make one specific promise about your first night together. Something you can keep.', duration: '5 minutes', emoji: '🤙' },
   { category: 'ROMANTIC', title: 'Love Letter: Digital', description: 'Type a love letter in real-time while they watch. Don\'t edit. Send when done.', duration: '8 minutes', emoji: '💌' },
   { category: 'ROMANTIC', title: 'The Playlist', description: 'Create a playlist together in real-time. Each adds one song. Explain every choice.', duration: '10 minutes', emoji: '🎶' },
@@ -695,7 +642,7 @@ const POOL = [
   { category: 'ROMANTIC', title: 'The Silent Film', description: 'Tell your story without words. Just expressions.', duration: '5 minutes', emoji: '🎞️' },
 
   // ==========================================
-  // CHEESY (80 items)
+  // CHEESY (80 items) — Over-the-top, dramatic, fun
   // ==========================================
   { category: 'CHEESY', title: 'Movie Trailer Us', description: 'Narrate your relationship like a dramatic movie trailer. Use a serious voice. Credits optional.', duration: '4 minutes', emoji: '🎬' },
   { category: 'CHEESY', title: 'Bad Pickup Lines Only', description: 'Take turns hitting on each other using only terrible pickup lines. Rate them. Crown a winner.', duration: '5 minutes', emoji: '😏' },
@@ -783,7 +730,7 @@ const POOL = [
   { category: 'CHEESY', title: 'The Oath', description: 'Take an oath. Make it dramatic.', duration: '3 minutes', emoji: '⚔️' },
 
   // ==========================================
-  // DISTANCE (80 items)
+  // DISTANCE (80 items) — Long-distance specific, building anticipation
   // ==========================================
   { category: 'DISTANCE', title: 'Countdown Wish', description: 'Say one specific thing you can\'t wait to do together the moment you\'re finally in the same room. Not just "hug you" — specifics.', duration: '4 minutes', emoji: '🧳' },
   { category: 'DISTANCE', title: 'Time Zone Toast', description: 'Whatever time it is for each of you right now, raise whatever\'s in reach — mug, glass, pillow — and toast to being one day closer.', duration: '2 minutes', emoji: '🕰️' },
