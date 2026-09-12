@@ -128,6 +128,63 @@ export function RelationshipProvider({ children }) {
     setPartnerJoined(null)
   }
 
+  // Realtime: keep current_turn (and any other relationship field)
+  // in sync on both screens without needing a manual refresh.
+  useEffect(() => {
+    if (!relationship?.id) return
+
+    const channel = supabase
+      .channel(`relationship-row-${relationship.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'relationships',
+          filter: `id=eq.${relationship.id}`,
+        },
+        (payload) => {
+          setRelationship((prev) => (prev ? { ...prev, ...payload.new } : payload.new))
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [relationship?.id])
+
+  async function rollActivity({ relationshipId, category, title, description, duration, emoji, mood }) {
+    const { data, error } = await supabase.rpc('roll_activity', {
+      p_relationship_id: relationshipId,
+      p_category: category,
+      p_title: title,
+      p_description: description,
+      p_duration: duration,
+      p_emoji: emoji,
+      p_mood: mood || null,
+    })
+    if (error) {
+      if (error.message?.includes('not_your_turn')) {
+        throw new Error("It's not your turn to roll yet.")
+      }
+      throw error
+    }
+    return Array.isArray(data) ? data[0] : data
+  }
+
+  // TEMP (testing only): leave the current relationship so you can
+  // re-test create/join without spinning up a new account. See
+  // src/lib/devFlags.js — remove the UI entry point for this before
+  // shipping to real users.
+  async function leaveRelationship() {
+    const { error } = await supabase.rpc('leave_relationship')
+    if (error) throw error
+    setRelationship(null)
+    setMembers([])
+    await fetchRelationship({ silent: true })
+  }
+
   async function createRelationship({ name, startDate, description }) {
     if (!user) throw new Error('Not authenticated')
     const code = 'LOVE-' + Math.random().toString(36).substring(2, 6).toUpperCase()
@@ -139,6 +196,7 @@ export function RelationshipProvider({ children }) {
         description: description || null,
         invite_code: code,
         creator_id: user.id,
+        current_turn: user.id,
         relationship_start_date: startDate || null,
       })
       .select()
@@ -184,6 +242,8 @@ export function RelationshipProvider({ children }) {
         loading,
         createRelationship,
         joinRelationship,
+        rollActivity,
+        leaveRelationship,
         refreshRelationship: fetchRelationship,
         hasRelationship: !!relationship,
         partnerJoined,
