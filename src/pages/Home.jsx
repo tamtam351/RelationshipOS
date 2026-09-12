@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { RotateCcw, History, LogOut, Copy, Check, Users } from 'lucide-react'
+import { RotateCcw, History, LogOut, Copy, Check, Users, DoorOpen } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useRelationship } from '../contexts/RelationshipContext'
 import { generateActivity } from '../lib/ai'
 import { supabase } from '../lib/supabase'
 import { Button } from '../components/ui/Button'
+import { ALLOW_LEAVE_RELATIONSHIP } from '../lib/devFlags'
 
 const THINKING_LINES = [
   'Thinking...',
@@ -28,7 +30,17 @@ const MOODS = [
 
 export default function Home() {
   const { profile, signOut } = useAuth()
-  const { relationship, partner, stats, partnerJoined, clearPartnerJoined } = useRelationship()
+  const {
+    relationship,
+    members,
+    partner,
+    stats,
+    partnerJoined,
+    clearPartnerJoined,
+    rollActivity,
+    leaveRelationship,
+  } = useRelationship()
+  const navigate = useNavigate()
   const [phase, setPhase] = useState('idle') // idle | thinking | reveal
   const [thinkingIdx, setThinkingIdx] = useState(0)
   const [activity, setActivity] = useState(null)
@@ -38,6 +50,14 @@ export default function Home() {
   const [showInvite, setShowInvite] = useState(false)
   const [copied, setCopied] = useState(false)
   const [liveFromPartner, setLiveFromPartner] = useState(false)
+  const [turnError, setTurnError] = useState('')
+  const [leaving, setLeaving] = useState(false)
+
+  // Turn order only applies once both partners are present. Before
+  // that (or if a relationship somehow has no turn set), rolling is
+  // always allowed.
+  const isMyTurn =
+    members.length < 2 || !relationship?.current_turn || relationship.current_turn === profile?.id
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
@@ -110,6 +130,8 @@ export default function Home() {
   }, [relationship?.id, profile?.id, phase, loadHistory])
 
   async function doSomething() {
+    if (!isMyTurn) return
+    setTurnError('')
     setLiveFromPartner(false)
     setPhase('thinking')
     setThinkingIdx(0)
@@ -126,21 +148,42 @@ export default function Home() {
     clearInterval(interval)
     setThinkingIdx(THINKING_LINES.length - 1)
     await new Promise((r) => setTimeout(r, 400))
-    setActivity(result)
-    setPhase('reveal')
 
     if (relationship && profile) {
-      await supabase.from('activities').insert({
-        relationship_id: relationship.id,
-        created_by: profile.id,
-        category: result.category,
-        title: result.title,
-        description: result.description,
-        duration: result.duration,
-        emoji: result.emoji,
-        mood: mood || null,
-      })
-      loadHistory()
+      try {
+        await rollActivity({
+          relationshipId: relationship.id,
+          category: result.category,
+          title: result.title,
+          description: result.description,
+          duration: result.duration,
+          emoji: result.emoji,
+          mood,
+        })
+        setActivity(result)
+        setPhase('reveal')
+        loadHistory()
+      } catch (err) {
+        // Most likely: partner rolled first in a near-simultaneous tap.
+        setTurnError(err.message || 'Could not roll right now.')
+        setPhase('idle')
+      }
+    } else {
+      setActivity(result)
+      setPhase('reveal')
+    }
+  }
+
+  async function leaveRoom() {
+    if (!confirm('Leave this space? This is a testing-only option and will disconnect you from your partner.')) return
+    setLeaving(true)
+    try {
+      await leaveRelationship()
+      navigate('/onboarding', { replace: true })
+    } catch (err) {
+      alert(err.message || 'Could not leave right now.')
+    } finally {
+      setLeaving(false)
     }
   }
 
@@ -258,21 +301,30 @@ export default function Home() {
               <p className="text-[#A1A1AA] mb-10 sm:mb-14 text-[15px]">Let the universe decide.</p>
 
               <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={isMyTurn ? { scale: 1.03 } : {}}
+                whileTap={isMyTurn ? { scale: 0.97 } : {}}
                 transition={{ type: 'spring', stiffness: 400, damping: 22 }}
                 onClick={doSomething}
-                className="relative mx-auto flex flex-col items-center justify-center w-[10.5rem] h-[10.5rem] sm:w-48 sm:h-48 rounded-[1.75rem] sm:rounded-[2rem] bg-[#111111] border border-white/10 group touch-manipulation"
+                disabled={!isMyTurn}
+                className={`relative mx-auto flex flex-col items-center justify-center w-[10.5rem] h-[10.5rem] sm:w-48 sm:h-48 rounded-[1.75rem] sm:rounded-[2rem] bg-[#111111] border border-white/10 group touch-manipulation ${
+                  !isMyTurn ? 'opacity-40 cursor-not-allowed' : ''
+                }`}
                 style={{ boxShadow: '0 0 40px rgba(30,215,96,0.12)' }}
               >
                 <span className="text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">🎲</span>
                 <span className="text-sm font-medium tracking-wide text-[#1ED760]">DO SOMETHING</span>
               </motion.button>
 
+              {turnError && (
+                <p className="mt-4 text-xs text-red-400">{turnError}</p>
+              )}
+
               <p className="mt-10 text-xs text-[#71717A]">
-                {partner
+                {!partner
+                  ? 'Invite your person so you share the same space.'
+                  : isMyTurn
                   ? 'When either of you rolls, both phones can see it.'
-                  : 'Invite your person so you share the same space.'}
+                  : `Waiting for ${partner?.display_name?.split(' ')[0] || 'your partner'} to roll — then it's your turn.`}
               </p>
             </motion.div>
           )}
@@ -324,7 +376,13 @@ export default function Home() {
                   <Button onClick={backToIdle} className="sm:min-w-[140px]">
                     Done
                   </Button>
-                  <Button variant="secondary" onClick={doSomething} className="sm:min-w-[140px]">
+                  <Button
+                    variant="secondary"
+                    onClick={doSomething}
+                    disabled={!isMyTurn}
+                    className="sm:min-w-[140px]"
+                    title={!isMyTurn ? `Waiting for ${partner?.display_name?.split(' ')[0] || 'your partner'} to roll` : undefined}
+                  >
                     <RotateCcw className="w-4 h-4 mr-2 inline" />
                     Again
                   </Button>
@@ -375,6 +433,24 @@ export default function Home() {
               <Button className="w-full mt-5" variant="secondary" onClick={() => setShowInvite(false)}>
                 Close
               </Button>
+
+              {ALLOW_LEAVE_RELATIONSHIP && (
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <p className="text-xs text-[#71717A] mb-2 flex items-center gap-1.5">
+                    <DoorOpen className="w-3.5 h-3.5" />
+                    Testing only — remove before real use
+                  </p>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="w-full"
+                    loading={leaving}
+                    onClick={leaveRoom}
+                  >
+                    Leave this space
+                  </Button>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
