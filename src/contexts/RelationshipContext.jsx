@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from './AuthContext'
 
@@ -90,6 +90,11 @@ export function RelationshipProvider({ children }) {
   // and surface a "X joined!" event the UI can turn into a toast.
   const [partnerJoined, setPartnerJoined] = useState(null) // { name } | null
 
+  const userIdRef = useRef(user?.id)
+  useEffect(() => {
+    userIdRef.current = user?.id
+  }, [user?.id])
+
   useEffect(() => {
     if (!relationship?.id || !user) return
 
@@ -104,7 +109,7 @@ export function RelationshipProvider({ children }) {
           filter: `relationship_id=eq.${relationship.id}`,
         },
         async (payload) => {
-          if (payload.new.user_id === user.id) return // that's our own join
+          if (payload.new.user_id === userIdRef.current) return // that's our own join
 
           await fetchRelationship({ silent: true, keepOnError: true })
 
@@ -122,7 +127,7 @@ export function RelationshipProvider({ children }) {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [relationship?.id, user, fetchRelationship])
+  }, [relationship?.id, user?.id, fetchRelationship])
 
   function clearPartnerJoined() {
     setPartnerJoined(null)
