@@ -170,8 +170,36 @@ export function RelationshipProvider({ children }) {
       }
       throw error
     }
+    // Don't rely solely on the realtime channel to learn the turn just
+    // flipped away from us — refresh our own state right away too.
+    await fetchRelationship({ silent: true, keepOnError: true })
     return Array.isArray(data) ? data[0] : data
   }
+
+  // Backstop in case a realtime event gets dropped: resync whenever the
+  // tab regains focus, and on a light interval while a relationship is
+  // active. Realtime should make this invisible in normal use.
+  useEffect(() => {
+    if (!relationship?.id) return
+
+    function onVisible() {
+      if (document.visibilityState === 'visible') {
+        fetchRelationship({ silent: true, keepOnError: true })
+      }
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    window.addEventListener('focus', onVisible)
+
+    const interval = setInterval(() => {
+      fetchRelationship({ silent: true, keepOnError: true })
+    }, 15000)
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible)
+      window.removeEventListener('focus', onVisible)
+      clearInterval(interval)
+    }
+  }, [relationship?.id, fetchRelationship])
 
   // TEMP (testing only): leave the current relationship so you can
   // re-test create/join without spinning up a new account. See
