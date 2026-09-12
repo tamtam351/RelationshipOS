@@ -148,12 +148,19 @@ async function tryLiveAI({ mood, avoidTitles }) {
         ],
       }),
     })
-    if (!res.ok) return null
+    if (!res.ok) {
+      const bodyText = await res.text().catch(() => '')
+      console.warn(`[ai] Groq request failed (${res.status}): ${bodyText.slice(0, 300)}`)
+      return null
+    }
     const data = await res.json()
     const text = data.choices?.[0]?.message?.content?.trim() || ''
     const cleaned = text.replace(/^```(?:json)?\s*|\s*```$/g, '').trim()
     const parsed = JSON.parse(cleaned)
-    if (!parsed.title || !parsed.description) return null
+    if (!parsed.title || !parsed.description) {
+      console.warn('[ai] Groq response missing title/description, falling back:', parsed)
+      return null
+    }
     return {
       category: String(parsed.category || 'RANDOM').toUpperCase(),
       title: parsed.title,
@@ -162,7 +169,8 @@ async function tryLiveAI({ mood, avoidTitles }) {
       emoji: parsed.emoji || '✨',
       source: 'ai',
     }
-  } catch {
+  } catch (err) {
+    console.warn('[ai] Groq call threw, falling back to local pool:', err)
     return null
   }
 }
