@@ -28,7 +28,7 @@ const MOODS = [
 
 export default function Home() {
   const { profile, signOut } = useAuth()
-  const { relationship, partner, stats } = useRelationship()
+  const { relationship, partner, stats, partnerJoined, clearPartnerJoined } = useRelationship()
   const [phase, setPhase] = useState('idle') // idle | thinking | reveal
   const [thinkingIdx, setThinkingIdx] = useState(0)
   const [activity, setActivity] = useState(null)
@@ -41,6 +41,12 @@ export default function Home() {
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
+
+  useEffect(() => {
+    if (!partnerJoined) return
+    const timer = setTimeout(() => clearPartnerJoined(), 4000)
+    return () => clearTimeout(timer)
+  }, [partnerJoined, clearPartnerJoined])
 
   const loadHistory = useCallback(async () => {
     if (!relationship) return
@@ -161,6 +167,23 @@ export default function Home() {
       <div className="pointer-events-none fixed inset-0">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#1ED760]/[0.04] blur-[100px]" />
       </div>
+
+      {/* Toast: partner just joined */}
+      <AnimatePresence>
+        {partnerJoined && (
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            className="fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 rounded-full bg-[#111111] border border-[#1ED760]/30 px-4 py-2.5 shadow-lg"
+          >
+            <Check className="w-4 h-4 text-[#1ED760]" />
+            <span className="text-sm text-white">
+              {partnerJoined.name} joined your space!
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <header className="relative z-10 flex items-center justify-between px-4 pt-[max(1.25rem,env(safe-area-inset-top))] pb-2 max-w-lg mx-auto">
         <div>
