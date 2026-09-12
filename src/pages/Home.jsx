@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RotateCcw, History, LogOut, Copy, Check, Users, DoorOpen } from 'lucide-react'
@@ -26,6 +26,7 @@ const MOODS = [
   { id: 'deep', label: 'Deep' },
   { id: 'competitive', label: 'Competitive' },
   { id: 'spicy', label: 'Spicy' },
+  { id: 'distance', label: 'Distance' },
 ]
 
 export default function Home() {
@@ -69,7 +70,7 @@ export default function Home() {
   }, [partnerJoined, clearPartnerJoined])
 
   const loadHistory = useCallback(async () => {
-    if (!relationship) return
+    if (!relationship?.id) return
     const { data } = await supabase
       .from('activities')
       .select('*')
@@ -77,13 +78,31 @@ export default function Home() {
       .order('created_at', { ascending: false })
       .limit(40)
     setHistory(data || [])
-  }, [relationship])
+  }, [relationship?.id])
 
   useEffect(() => {
     loadHistory()
   }, [loadHistory])
 
-  // Realtime: when partner rolls, you see the same activity
+  // Keep the latest profile id / loadHistory available inside the
+  // subscription callback without making the channel effect below
+  // depend on them (that was the cause of the sync flakiness — the
+  // channel was being torn down and recreated on every phase change
+  // and every background refresh, opening gaps where a partner's roll
+  // could be missed).
+  const profileIdRef = useRef(profile?.id)
+  useEffect(() => {
+    profileIdRef.current = profile?.id
+  }, [profile?.id])
+
+  const loadHistoryRef = useRef(loadHistory)
+  useEffect(() => {
+    loadHistoryRef.current = loadHistory
+  }, [loadHistory])
+
+  // Realtime: when partner rolls, you see the same activity.
+  // Depends ONLY on relationship?.id so this channel is opened once
+  // and stays open for as long as you're in this relationship.
   useEffect(() => {
     if (!relationship?.id) return
 
@@ -99,13 +118,8 @@ export default function Home() {
         },
         (payload) => {
           const row = payload.new
-          // Ignore our own inserts if we are already revealing that title
-          if (profile && row.created_by === profile.id && phase === 'reveal') {
-            loadHistory()
-            return
-          }
-          if (profile && row.created_by === profile.id) {
-            loadHistory()
+          if (profileIdRef.current && row.created_by === profileIdRef.current) {
+            loadHistoryRef.current?.()
             return
           }
           // Partner rolled — show their activity
@@ -119,7 +133,7 @@ export default function Home() {
             is_saved: row.is_saved,
           })
           setPhase('reveal')
-          loadHistory()
+          loadHistoryRef.current?.()
         }
       )
       .subscribe()
@@ -127,7 +141,7 @@ export default function Home() {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [relationship?.id, profile?.id, phase, loadHistory])
+  }, [relationship?.id])
 
   async function doSomething() {
     if (!isMyTurn) return
