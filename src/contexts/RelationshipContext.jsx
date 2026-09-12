@@ -86,6 +86,48 @@ export function RelationshipProvider({ children }) {
     fetchRelationship()
   }, [fetchRelationship])
 
+  // Realtime: when someone else joins our relationship, refresh state
+  // and surface a "X joined!" event the UI can turn into a toast.
+  const [partnerJoined, setPartnerJoined] = useState(null) // { name } | null
+
+  useEffect(() => {
+    if (!relationship?.id || !user) return
+
+    const channel = supabase
+      .channel(`relationship-members-${relationship.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'relationship_members',
+          filter: `relationship_id=eq.${relationship.id}`,
+        },
+        async (payload) => {
+          if (payload.new.user_id === user.id) return // that's our own join
+
+          await fetchRelationship({ silent: true, keepOnError: true })
+
+          const { data: joinerProfile } = await supabase
+            .from('profiles')
+            .select('display_name')
+            .eq('id', payload.new.user_id)
+            .maybeSingle()
+
+          setPartnerJoined({ name: joinerProfile?.display_name || 'Your partner' })
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [relationship?.id, user, fetchRelationship])
+
+  function clearPartnerJoined() {
+    setPartnerJoined(null)
+  }
+
   async function createRelationship({ name, startDate, description }) {
     if (!user) throw new Error('Not authenticated')
     const code = 'LOVE-' + Math.random().toString(36).substring(2, 6).toUpperCase()
@@ -144,6 +186,8 @@ export function RelationshipProvider({ children }) {
         joinRelationship,
         refreshRelationship: fetchRelationship,
         hasRelationship: !!relationship,
+        partnerJoined,
+        clearPartnerJoined,
       }}
     >
       {children}
