@@ -116,23 +116,14 @@ export function RelationshipProvider({ children }) {
 
   async function joinRelationship(inviteCode) {
     if (!user) throw new Error('Not authenticated')
-    const { data: rel, error } = await supabase
-      .from('relationships')
-      .select('*')
-      .eq('invite_code', inviteCode.trim().toUpperCase())
-      .single()
-    if (error || !rel) throw new Error('Invalid invitation code')
 
-    const { count } = await supabase
-      .from('relationship_members')
-      .select('*', { count: 'exact', head: true })
-      .eq('relationship_id', rel.id)
-    if ((count || 0) >= 2) throw new Error('This relationship is already full')
+    const { data, error } = await supabase.rpc('join_relationship_by_code', {
+      p_invite_code: inviteCode.trim().toUpperCase(),
+    })
+    if (error) throw new Error(error.message || 'Invalid invitation code')
 
-    const { error: joinErr } = await supabase
-      .from('relationship_members')
-      .insert({ relationship_id: rel.id, user_id: user.id })
-    if (joinErr) throw joinErr
+    const rel = Array.isArray(data) ? data[0] : data
+    if (!rel) throw new Error('Invalid invitation code')
 
     setRelationship(rel)
     await fetchRelationship({ silent: true, keepOnError: true })
