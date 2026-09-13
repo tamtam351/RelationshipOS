@@ -21,12 +21,9 @@ const API_KEY = import.meta.env.VITE_AI_API_KEY || ''
 const BASE_URL = import.meta.env.VITE_AI_BASE_URL || ''
 const MODEL = import.meta.env.VITE_AI_MODEL || ''
 
-/** Large free offline pool — sensual, intimate, and designed for pre-meeting tension */
+/** Large free offline pool — feisty, bonding, competitive, chaotic, and distance-aware */
 const POOL = [
-  // ==========================================
-  // CHAOS (80 items) — Playful, flirty chaos with sexual undertones
-  // ==========================================
-  { category: 'CHAOS', title: 'Strip Questionnaire', description: 'Ask each other increasingly personal questions. For every answer you refuse, remove one item of clothing. No lying allowed.', duration: '15 minutes', emoji: '🎲' },
+  // CHAOS { category: 'CHAOS', title: 'Strip Questionnaire', description: 'Ask each other increasingly personal questions. For every answer you refuse, remove one item of clothing. No lying allowed.', duration: '15 minutes', emoji: '🎲' },
   { category: 'CHAOS', title: 'Voice Note Confessional', description: 'Send a 60-second voice note describing your most recent NSFW thought about them. No filtering.', duration: '3 minutes', emoji: '🔥' },
   { category: 'CHAOS', title: 'Filter Roulette', description: 'Apply random beauty filters and take turns saying the dirtiest thing you can while looking ridiculous. First to laugh loses.', duration: '5 minutes', emoji: '👻' },
   { category: 'CHAOS', title: 'Screenshot Dare', description: 'Share your most recent search history screenshot. Partner picks one thing to ask about in detail.', duration: '4 minutes', emoji: '📱' },
@@ -93,9 +90,23 @@ const POOL = [
   { category: 'CHAOS', title: 'Shadow Puppet', description: 'Make shadow puppets with your hands. Tell a short story.', duration: '4 minutes', emoji: '🌑' },
   { category: 'CHAOS', title: 'Chaos Cooking Show', description: 'Host a cooking show with imaginary ingredients. Get chaotic.', duration: '5 minutes', emoji: '🍳' },
 
-  // ==========================================
-  // GAME (80 items) — Flirty games with intimate stakes
-  // ==========================================
+ 
+
+  // GAME
+  { category: 'GAME', title: 'Lie Detector', description: 'Ask three questions. Two truths, one lie. Partner has to catch the lie — explain your reasoning after.', duration: '8 minutes', emoji: '🕵️' },
+  { category: 'GAME', title: 'Finish My Sentence', description: 'Start a sentence about your relationship. Partner finishes it in the most dramatic way possible.', duration: '5 minutes', emoji: '🎭' },
+  { category: 'GAME', title: 'This or That: Us', description: 'Rapid-fire 10 this-or-that questions about your real preferences. Keep score of who knows who better.', duration: '6 minutes', emoji: '⚡' },
+  { category: 'GAME', title: 'Guess the Memory', description: 'Describe a shared memory or a moment from your calls using only 3 words. Partner figures out which one it was.', duration: '5 minutes', emoji: '🧩' },
+  { category: 'GAME', title: 'Would You Rather: Extreme', description: 'Invent two absurd options involving both of you. Partner must choose and defend it like a lawyer.', duration: '5 minutes', emoji: '🎲' },
+  { category: 'GAME', title: 'Song Lyric Roast', description: 'Take turns singing one line of a song that somehow applies to the other person right now. Soft roast only.', duration: '6 minutes', emoji: '🎤' },
+  { category: 'GAME', title: 'Who Said It', description: 'Write 4 short quotes from your calls or texts together. Partner guesses who said each one.', duration: '7 minutes', emoji: '💬' },
+  { category: 'GAME', title: '20 Questions: Soft', description: 'Think of a person, place, or memory from your relationship. Partner has 15 yes/no questions to figure it out.', duration: '8 minutes', emoji: '❓' },
+  { category: 'GAME', title: 'Camera Roll Roulette', description: 'Open your camera roll, scroll to a random photo from a year ago, and share your screen. Tell the story behind it.', duration: '4 minutes', emoji: '🎞️' },
+  { category: 'GAME', title: 'Two Truths, One Wild', description: 'Each say two true things and one wildly exaggerated thing about your week. Partner has to spot the exaggeration.', duration: '5 minutes', emoji: '🎯' },
+  { category: 'GAME', title: 'Fortunately, Unfortunately', description: 'Start a story with "Fortunately…" — partner continues with "Unfortunately…" Keep alternating.', duration: '5 minutes', emoji: '🎢' },
+  { category: 'GAME', title: 'Word Chain', description: 'Last letter of their word becomes your first letter. Keep the chain going as long as you can.', duration: '5 minutes', emoji: '🔗' },
+  { category: 'GAME', title: 'Rock Paper Scissors Tournament', description: 'Best of 9. Winner gets one favor of their choosing.', duration: '5 minutes', emoji: '✊' },
+  { category: 'GAME', title: 'The Alphabet Challenge', description: 'Name something you love about them for every letter, A through Z. See how far you get.', duration: '8 minutes', emoji: '🔤' },
   { category: 'GAME', title: 'Lie Detector', description: 'Ask three questions. Two truths, one lie. Partner has to catch the lie — explain your reasoning after.', duration: '8 minutes', emoji: '🕵️' },
   { category: 'GAME', title: 'Finish My Sentence', description: 'Start a sentence about your relationship. Partner finishes it in the most dramatic way possible.', duration: '5 minutes', emoji: '🎭' },
   { category: 'GAME', title: 'This or That: Us', description: 'Rapid-fire 10 this-or-that questions about your real preferences. Keep score of who knows who better.', duration: '6 minutes', emoji: '⚡' },
@@ -161,9 +172,15 @@ const POOL = [
   { category: 'GAME', title: 'The Voice Challenge', description: 'Say a phrase in different emotions. They guess the emotion.', duration: '5 minutes', emoji: '🎭' },
   { category: 'GAME', title: 'The Freeze Frame', description: 'Freeze in a pose. They describe what you look like you\'re doing.', duration: '3 minutes', emoji: '📷' },
 
-  // ==========================================
-  // COMPETITIVE (80 items) — Sexy stakes, intimate challenges
-  // ==========================================
+
+  // COMPETITIVE
+  { category: 'COMPETITIVE', title: 'Stare Off', description: 'First one to laugh or look away from the camera loses. Winner demands one silly favor right now.', duration: '2 minutes', emoji: '👀' },
+  { category: 'COMPETITIVE', title: 'Rock Paper Scissors Streak', description: 'Best of 7, hands up to the camera. Loser has to give a 30-second dramatic apology speech.', duration: '4 minutes', emoji: '✊' },
+  { category: 'COMPETITIVE', title: 'Compliment Battle', description: 'Take turns giving genuine compliments. First one who repeats an idea or goes blank loses.', duration: '5 minutes', emoji: '🏆' },
+  { category: 'COMPETITIVE', title: 'Speed Tidy Duel', description: 'Set a 3-minute timer. Each races to tidy your own space in view of the camera. Show the results side by side, other picks the winner.', duration: '3 minutes', emoji: '⏱️' },
+  { category: 'COMPETITIVE', title: 'Draw Them Blind', description: 'Draw your partner from memory without looking at the page. Reveal on camera at the same time. Rate each other\'s portraits.', duration: '6 minutes', emoji: '🎨' },
+  { category: 'COMPETITIVE', title: 'Memory Sprint', description: 'Name as many shared memories or inside jokes as you can in 60 seconds. Highest unique count wins.', duration: '2 minutes', emoji: '🧠' },
+  { category: 'COMPETITIVE', title: 'Impression Duel', description: 'Each do your best impression of the other on a normal call. Audience of one votes who nailed it.', duration: '4 minutes', emoji: '🎬' },
   { category: 'COMPETITIVE', title: 'Stare Off', description: 'First one to laugh or look away from the camera loses. Winner demands one silly favor right now.', duration: '2 minutes', emoji: '👀' },
   { category: 'COMPETITIVE', title: 'Rock Paper Scissors Streak', description: 'Best of 7, hands up to the camera. Loser has to give a 30-second dramatic apology speech.', duration: '4 minutes', emoji: '✊' },
   { category: 'COMPETITIVE', title: 'Compliment Battle', description: 'Take turns giving genuine compliments. First one who repeats an idea or goes blank loses.', duration: '5 minutes', emoji: '🏆' },
@@ -222,10 +239,16 @@ const POOL = [
   { category: 'COMPETITIVE', title: 'The Reaction Test', description: 'Show something surprising. Best reaction wins.', duration: '3 minutes', emoji: '😲' },
   { category: 'COMPETITIVE', title: 'The Description Duel', description: 'Describe something in detail. Most vivid wins.', duration: '5 minutes', emoji: '📝' },
 
-  // ==========================================
-  // SWEET (80 items) — Tender intimacy, emotional closeness
-  // ==========================================
+  // SWEET
   { category: 'SWEET', title: 'Tiny Confession', description: 'Say one small thing you noticed about them this week — from a text, a call, a photo — that made you smile. No big speeches.', duration: '3 minutes', emoji: '✨' },
+  { category: 'SWEET', title: 'Favorite Version', description: 'Describe your favorite version of them — a specific call, message, or mood. Be specific.', duration: '4 minutes', emoji: '💫' },
+  { category: 'SWEET', title: 'Gratitude Swap', description: 'Each write 3 things you appreciate about the other on your phone, then send them over and read them out loud.', duration: '5 minutes', emoji: '📝' },
+  { category: 'SWEET', title: 'Soundtrack of Us', description: 'Each pick one song that represents a chapter of your relationship so far. Play 30 seconds and explain the pick.', duration: '6 minutes', emoji: '🎵' },
+  { category: 'SWEET', title: 'Future Postcard', description: 'Write a short postcard from one year from now to each other. Read them aloud.', duration: '7 minutes', emoji: '✉️' },
+  { category: 'SWEET', title: 'Soft Replay', description: 'Retell the story of how you started talking — but from the other person\'s point of view. See how close you get.', duration: '6 minutes', emoji: '📖' },
+  { category: 'SWEET', title: 'Voice Note Gratitude', description: 'Record a 60-second voice note about one small thing you\'re grateful for right now. Send it, don\'t explain it first.', duration: '3 minutes', emoji: '🎧' },
+  { category: 'SWEET', title: 'Homescreen Tour', description: 'Screenshot your phone homescreen and send it over. Narrate what each app placement secretly says about you.', duration: '4 minutes', emoji: '📲' },
+   { category: 'SWEET', title: 'Tiny Confession', description: 'Say one small thing you noticed about them this week — from a text, a call, a photo — that made you smile. No big speeches.', duration: '3 minutes', emoji: '✨' },
   { category: 'SWEET', title: 'Favorite Version', description: 'Describe your favorite version of them — a specific call, message, or mood. Be specific.', duration: '4 minutes', emoji: '💫' },
   { category: 'SWEET', title: 'Gratitude Swap', description: 'Each write 3 things you appreciate about the other on your phone, then send them over and read them out loud.', duration: '5 minutes', emoji: '📝' },
   { category: 'SWEET', title: 'Soundtrack of Us', description: 'Each pick one song that represents a chapter of your relationship so far. Play 30 seconds and explain the pick.', duration: '6 minutes', emoji: '🎵' },
@@ -304,10 +327,17 @@ const POOL = [
   { category: 'SWEET', title: 'The Anchor', description: 'Tell them how they ground you. What do they stabilize?', duration: '4 minutes', emoji: '⚓' },
   { category: 'SWEET', title: 'The Home', description: 'Describe what "home" feels like with them. Not a place, a feeling.', duration: '5 minutes', emoji: '🏡' },
 
-  // ==========================================
-  // DEEP (80 items) — Emotional/psychological intimacy
-  // ==========================================
+
+  // DEEP
   { category: 'DEEP', title: 'Future Snapshot', description: 'Describe one ordinary Tuesday five years from now — once you\'re finally in the same city. Include what the other is doing in that scene.', duration: '6 minutes', emoji: '🔮' },
+  { category: 'DEEP', title: 'Unsaid Thing', description: 'Share one thing you almost said to them recently but didn\'t. Keep it honest and short.', duration: '4 minutes', emoji: '💬' },
+  { category: 'DEEP', title: 'Safe Place', description: 'Describe a call or a moment with them when you felt completely at ease. What made it that way?', duration: '5 minutes', emoji: '🏠' },
+  { category: 'DEEP', title: 'Hard Truth Softly', description: 'Share one small growth area for the relationship — framed as a wish, not a complaint.', duration: '6 minutes', emoji: '🌱' },
+  { category: 'DEEP', title: 'Letter in 10 Lines', description: 'Write a 10-line letter to your partner about something you never quite put into words. Read it or send it.', duration: '8 minutes', emoji: '💌' },
+  { category: 'DEEP', title: 'What I Need', description: 'Finish this sentence for each other: "Right now I need more of…" No fixing, just listen.', duration: '5 minutes', emoji: '🤍' },
+  { category: 'DEEP', title: 'First Meeting, Honestly', description: 'Share one honest feeling about meeting in person for the first time — nervous, excited, both. Let the other just hold it, no reassurance required.', duration: '5 minutes', emoji: '🫶' },
+  { category: 'DEEP', title: 'What Distance Taught Me', description: 'Name one thing about love — or about yourself — that you only learned because you had to love each other from far away.', duration: '6 minutes', emoji: '🌍' },
+   { category: 'DEEP', title: 'Future Snapshot', description: 'Describe one ordinary Tuesday five years from now — once you\'re finally in the same city. Include what the other is doing in that scene.', duration: '6 minutes', emoji: '🔮' },
   { category: 'DEEP', title: 'Unsaid Thing', description: 'Share one thing you almost said to them recently but didn\'t. Keep it honest and short.', duration: '4 minutes', emoji: '💬' },
   { category: 'DEEP', title: 'Safe Place', description: 'Describe a call or a moment with them when you felt completely at ease. What made it that way?', duration: '5 minutes', emoji: '🏠' },
   { category: 'DEEP', title: 'Hard Truth Softly', description: 'Share one small growth area for the relationship — framed as a wish, not a complaint.', duration: '6 minutes', emoji: '🌱' },
@@ -386,9 +416,13 @@ const POOL = [
   { category: 'DEEP', title: 'The Middle', description: 'Where are you now? In the arc of your story, what chapter is this?', duration: '7 minutes', emoji: '📖' },
   { category: 'DEEP', title: 'The End', description: 'What would a good ending look like? Not the relationship—just this chapter.', duration: '7 minutes', emoji: '🔚' },
 
-  // ==========================================
-  // SPICY (80 items) — Flirty, sensual, sexual tension without being too explicit
-  // ==========================================
+  // SPICY / FLIRTY
+  { category: 'SPICY', title: 'Rate That Memory', description: 'Name a shared memory from a call or trip you\'re planning. Partner rates how hot / chaotic / soft it was on a 1–10 and explains why.', duration: '5 minutes', emoji: '🔥' },
+  { category: 'SPICY', title: 'First Notice', description: 'What was the first thing you noticed about them online that made you curious? Be honest.', duration: '3 minutes', emoji: '👀' },
+  { category: 'SPICY', title: 'Flirt Rebuild', description: 'Flirt with each other like you just matched today and only have 5 minutes to impress.', duration: '5 minutes', emoji: '😏' },
+  { category: 'SPICY', title: 'Secret Preference', description: 'Share one small preference you have that you think they still don\'t know about.', duration: '4 minutes', emoji: '🤫' },
+  { category: 'SPICY', title: 'Complimentary Roast', description: 'Give a compliment that is also a tiny roast. Soft only. Example energy, not mean.', duration: '4 minutes', emoji: '🌶️' },
+  { category: 'SPICY', title: 'Voice Only', description: 'Turn your camera off for 60 seconds and just listen to their voice. Say the first thing that comes to mind after.', duration: '3 minutes', emoji: '🎙️' },
   { category: 'SPICY', title: 'Rate That Memory', description: 'Name a shared memory from a call or trip you\'re planning. Partner rates how hot / chaotic / soft it was on a 1–10 and explains why.', duration: '5 minutes', emoji: '🔥' },
   { category: 'SPICY', title: 'First Notice', description: 'What was the first thing you noticed about them online that made you curious? Be honest.', duration: '3 minutes', emoji: '👀' },
   { category: 'SPICY', title: 'Flirt Rebuild', description: 'Flirt with each other like you just matched today and only have 5 minutes to impress.', duration: '5 minutes', emoji: '😏' },
@@ -472,9 +506,18 @@ const POOL = [
   { category: 'SPICY', title: 'The Threat', description: 'Look at them like you\'re threatening something good.', duration: '3 minutes', emoji: '😏' },
   { category: 'SPICY', title: 'The Tease', description: 'Start to say something. Stop. Smile. Make them beg.', duration: '4 minutes', emoji: '🙊' },
 
-  // ==========================================
-  // RANDOM (80 items) — Unexpected, varied, authentic
-  // ==========================================
+  // RANDOM / BONDING Qs
+  { category: 'RANDOM', title: 'Highs & Lows', description: 'Share the highest and lowest moment of your day in under a minute each. No advice unless asked.', duration: '4 minutes', emoji: '📈' },
+  { category: 'RANDOM', title: 'Desert Island Three', description: 'If you two finally lived in the same place and could only unpack 3 things first, what would they be? Debate the list.', duration: '6 minutes', emoji: '🏝️' },
+  { category: 'RANDOM', title: 'One More Question', description: 'Ask the question you\'ve been mildly curious about but never asked. Answer honestly.', duration: '5 minutes', emoji: '❔' },
+  { category: 'RANDOM', title: 'Role Swap', description: 'For 3 minutes, do an impression of each other reacting to a typical evening. Keep it playful, not mean.', duration: '5 minutes', emoji: '🪞' },
+  { category: 'RANDOM', title: 'Bucket Micro', description: 'Add one tiny thing to a shared "someday" list — something doable this month, even apart.', duration: '3 minutes', emoji: '🪣' },
+  { category: 'RANDOM', title: 'Photo Story', description: 'Pick a random photo on your phone from the last month. Tell the story behind it in 60 seconds.', duration: '4 minutes', emoji: '📷' },
+  { category: 'RANDOM', title: 'Trade a Habit', description: 'Each teach the other one tiny habit or skill in under 5 minutes — a word in your language, a recipe step, anything.', duration: '6 minutes', emoji: '🔁' },
+  { category: 'RANDOM', title: 'The Fridge Tour', description: 'Show the inside of your fridge on camera. Judge each other\'s life choices lovingly.', duration: '4 minutes', emoji: '🧊' },
+  { category: 'RANDOM', title: 'The Junk Drawer', description: 'Open your junk drawer, pull out three items, and tell their stories.', duration: '5 minutes', emoji: '🗄️' },
+  { category: 'RANDOM', title: 'The Wishlist', description: 'Share your online wishlist. What are you wanting but haven\'t bought?', duration: '4 minutes', emoji: '⭐' },
+  { category: 'RANDOM', title: 'The Hidden Talent', description: 'Show or describe a hidden talent, even if it\'s weird.', duration: '4 minutes', emoji: '🎩' },
   { category: 'RANDOM', title: 'Highs & Lows', description: 'Share the highest and lowest moment of your day in under a minute each. No advice unless asked.', duration: '4 minutes', emoji: '📈' },
   { category: 'RANDOM', title: 'Desert Island Three', description: 'If you two finally lived in the same place and could only unpack 3 things first, what would they be? Debate the list.', duration: '6 minutes', emoji: '🏝️' },
   { category: 'RANDOM', title: 'One More Question', description: 'Ask the question you\'ve been mildly curious about but never asked. Answer honestly.', duration: '5 minutes', emoji: '❔' },
@@ -551,10 +594,14 @@ const POOL = [
   { category: 'RANDOM', title: 'The Truth or Dare', description: 'Adapted for video calls. Keep it camera-friendly.', duration: '10 minutes', emoji: '🎯' },
   { category: 'RANDOM', title: 'The Most Likely To', description: 'Most likely to what? Take turns.', duration: '6 minutes', emoji: '📊' },
 
-  // ==========================================
-  // ROMANTIC (80 items) — Classic romance, longing, future dreams
-  // ==========================================
+  // ROMANTIC
   { category: 'ROMANTIC', title: 'Eyes Closed, Together', description: 'On camera, both close your eyes for 60 seconds like you\'re just sitting in the same room. Open them and say the first true thing that comes up.', duration: '3 minutes', emoji: '👁' },
+  { category: 'ROMANTIC', title: 'Hand to the Screen', description: 'Hold your hand up to the camera like you\'re holding theirs. Tell a short story about the first time you knew this might be real.', duration: '5 minutes', emoji: '🤝' },
+  { category: 'ROMANTIC', title: 'Slow Question', description: 'Ask: "When do you feel most loved by me, even from this far away?" Listen fully. No fixing, just receive it.', duration: '6 minutes', emoji: '🌙' },
+  { category: 'ROMANTIC', title: 'Quiet Together', description: 'Stay on camera in silence for two minutes, no talking unless one of you needs to. Just be in the same space, however far apart.', duration: '2 minutes', emoji: '🤍' },
+  { category: 'ROMANTIC', title: 'Long-Distance Toast', description: 'Make a tiny toast to something only the two of you understand. Clink whatever you\'re holding — glasses, mugs, whatever\'s closest.', duration: '3 minutes', emoji: '🥂' },
+  { category: 'ROMANTIC', title: 'Letter in Five Lines', description: 'Each write a 5-line love note on your phone. Send it over and read it silently, then one line out loud.', duration: '7 minutes', emoji: '💌' },
+   { category: 'ROMANTIC', title: 'Eyes Closed, Together', description: 'On camera, both close your eyes for 60 seconds like you\'re just sitting in the same room. Open them and say the first true thing that comes up.', duration: '3 minutes', emoji: '👁' },
   { category: 'ROMANTIC', title: 'Hand to the Screen', description: 'Hold your hand up to the camera like you\'re holding theirs. Tell a short story about the first time you knew this might be real.', duration: '5 minutes', emoji: '🤝' },
   { category: 'ROMANTIC', title: 'Slow Question', description: 'Ask: "When do you feel most loved by me, even from this far away?" Listen fully. No fixing, just receive it.', duration: '6 minutes', emoji: '🌙' },
   { category: 'ROMANTIC', title: 'Quiet Together', description: 'Stay on camera in silence for two minutes, no talking unless one of you needs to. Just be in the same space, however far apart.', duration: '2 minutes', emoji: '🤍' },
@@ -639,9 +686,13 @@ const POOL = [
   { category: 'ROMANTIC', title: 'The Musical', description: 'Tell your story like a musical. Break into song.', duration: '7 minutes', emoji: '🎵' },
   { category: 'ROMANTIC', title: 'The Silent Film', description: 'Tell your story without words. Just expressions.', duration: '5 minutes', emoji: '🎞️' },
 
-  // ==========================================
-  // CHEESY (80 items) — Over-the-top, dramatic, fun
-  // ==========================================
+  // CHEESY
+  { category: 'CHEESY', title: 'Movie Trailer Us', description: 'Narrate your relationship like a dramatic movie trailer. Use a serious voice. Credits optional.', duration: '4 minutes', emoji: '🎬' },
+  { category: 'CHEESY', title: 'Bad Pickup Lines Only', description: 'Take turns hitting on each other using only terrible pickup lines. Rate them. Crown a winner.', duration: '5 minutes', emoji: '😏' },
+  { category: 'CHEESY', title: 'Soap Opera Confession', description: 'Confess something small as if you\'re on a daytime soap. Overact. Gasps encouraged.', duration: '4 minutes', emoji: '🎭' },
+  { category: 'CHEESY', title: 'Hallmark Rewrite', description: 'Retell how you started talking as a Hallmark movie plot. Include a misunderstanding, a grand gesture, and a happy ending.', duration: '6 minutes', emoji: '❄️' },
+  { category: 'CHEESY', title: 'Power Ballad Pose', description: 'Pick a cheesy love song, play 30 seconds on the call, and hold a ridiculous romantic pose to camera until the drop.', duration: '3 minutes', emoji: '🎤' },
+  { category: 'CHEESY', title: 'Yes Dear Protocol', description: 'For 3 minutes reply to everything with an over-the-top loving cliché. "Of course, my universe."', duration: '3 minutes', emoji: '💘' },
   { category: 'CHEESY', title: 'Movie Trailer Us', description: 'Narrate your relationship like a dramatic movie trailer. Use a serious voice. Credits optional.', duration: '4 minutes', emoji: '🎬' },
   { category: 'CHEESY', title: 'Bad Pickup Lines Only', description: 'Take turns hitting on each other using only terrible pickup lines. Rate them. Crown a winner.', duration: '5 minutes', emoji: '😏' },
   { category: 'CHEESY', title: 'Soap Opera Confession', description: 'Confess something small as if you\'re on a daytime soap. Overact. Gasps encouraged.', duration: '4 minutes', emoji: '🎭' },
@@ -727,9 +778,7 @@ const POOL = [
   { category: 'CHEESY', title: 'The Pledge', description: 'Pledge allegiance to each other. Hand on heart.', duration: '3 minutes', emoji: '🙋' },
   { category: 'CHEESY', title: 'The Oath', description: 'Take an oath. Make it dramatic.', duration: '3 minutes', emoji: '⚔️' },
 
-  // ==========================================
-  // DISTANCE (80 items) — Long-distance specific, building anticipation
-  // ==========================================
+  // DISTANCE — built for a couple who haven't met in person yet
   { category: 'DISTANCE', title: 'Countdown Wish', description: 'Say one specific thing you can\'t wait to do together the moment you\'re finally in the same room. Not just "hug you" — specifics.', duration: '4 minutes', emoji: '🧳' },
   { category: 'DISTANCE', title: 'Time Zone Toast', description: 'Whatever time it is for each of you right now, raise whatever\'s in reach — mug, glass, pillow — and toast to being one day closer.', duration: '2 minutes', emoji: '🕰️' },
   { category: 'DISTANCE', title: 'Same Sky', description: 'Step to a window if you can. Describe what you see, and imagine it\'s the same sky your partner is under right now.', duration: '3 minutes', emoji: '🌌' },
@@ -740,8 +789,8 @@ const POOL = [
   { category: 'DISTANCE', title: 'Miss You Most', description: 'Finish the sentence: "I miss you most when ___." Keep it specific and real, not just "always."', duration: '3 minutes', emoji: '🫂' },
   { category: 'DISTANCE', title: 'This Made Me Smile', description: 'Scroll to a screenshot or photo of your partner that still makes you smile. Show it on camera and say why it stuck.', duration: '4 minutes', emoji: '📸' },
   { category: 'DISTANCE', title: 'Bridge the Miles', description: 'Each name one thing you could do this week, even from far apart, that would make the other feel a little closer.', duration: '5 minutes', emoji: '🌁' },
-  { category: 'DISTANCE', title: 'The Goodnight Ritual', description: 'Create a specific way to say goodnight that feels like a kiss. Practice it.',
-   { category: 'DISTANCE', title: 'The Goodnight Ritual', description: 'Create a specific way to say goodnight that feels like a kiss. Practice it.', duration: '4 minutes', emoji: '🌙' },
+  { category: 'DISTANCE', title: 'The Goodnight Ritual', description: 'Create a specific way to say goodnight that feels like a kiss. Practice it.'},
+  { category: 'DISTANCE', title: 'The Goodnight Ritual', description: 'Create a specific way to say goodnight that feels like a kiss. Practice it.', duration: '4 minutes', emoji: '🌙' },
   { category: 'DISTANCE', title: 'Morning Voice Notes', description: 'Send a voice note first thing tomorrow morning before fully waking up. No editing allowed.', duration: '2 minutes', emoji: '🌅' },
   { category: 'DISTANCE', title: 'The Countdown Calendar', description: 'Make a physical or digital countdown. Show each other. Celebrate every milestone.', duration: '5 minutes', emoji: '📅' },
   { category: 'DISTANCE', title: 'Virtual Coffee Date', description: 'Make coffee or tea at the same time. Sit and sip together on camera.', duration: '15 minutes', emoji: '☕' },
@@ -822,9 +871,17 @@ const POOL = [
   { category: 'DISTANCE', title: 'The Retirement Dream', description: 'Where will you retire? What will you do?', duration: '8 minutes', emoji: '🏖️' },
   { category: 'DISTANCE', title: 'The Legacy', description: 'What do you want to leave behind together?', duration: '8 minutes', emoji: '🏛️' },
 
-  // ==========================================
-  // TRUST (80 items) — Juicy, vulnerable, intimate, sexual vulnerability included
-  // ==========================================
+  { category: 'DISTANCE', title: 'Countdown Wish', description: 'Say one specific thing you can\'t wait to do together the moment you\'re finally in the same room. Not just "hug you" — specifics.', duration: '4 minutes', emoji: '🧳' },
+  { category: 'DISTANCE', title: 'Time Zone Toast', description: 'Whatever time it is for each of you right now, raise whatever\'s in reach — mug, glass, pillow — and toast to being one day closer.', duration: '2 minutes', emoji: '🕰️' },
+  { category: 'DISTANCE', title: 'Same Sky', description: 'Step to a window if you can. Describe what you see, and imagine it\'s the same sky your partner is under right now.', duration: '3 minutes', emoji: '🌌' },
+  { category: 'DISTANCE', title: 'Meeting Day Playlist', description: 'Each add one song to an imaginary playlist for the day you finally meet in person. Explain the pick.', duration: '5 minutes', emoji: '🎶' },
+  { category: 'DISTANCE', title: 'What Shrinks the Miles', description: 'Name one small thing your partner does from far away that makes the distance feel shorter. Tell them now, plainly.', duration: '3 minutes', emoji: '🌉' },
+  { category: 'DISTANCE', title: 'Postcard From Here', description: 'Describe your actual surroundings right now in loving detail, like you\'re sending a postcard from your city to theirs.', duration: '4 minutes', emoji: '🏙️' },
+  { category: 'DISTANCE', title: 'Practice Run', description: 'Talk through what you think the first ten minutes of finally meeting will feel like. Nervous laughter fully allowed.', duration: '6 minutes', emoji: '🛬' },
+  { category: 'DISTANCE', title: 'Miss You Most', description: 'Finish the sentence: "I miss you most when ___." Keep it specific and real, not just "always."', duration: '3 minutes', emoji: '🫂' },
+  { category: 'DISTANCE', title: 'This Made Me Smile', description: 'Scroll to a screenshot or photo of your partner that still makes you smile. Show it on camera and say why it stuck.', duration: '4 minutes', emoji: '📸' },
+  { category: 'DISTANCE', title: 'Bridge the Miles', description: 'Each name one thing you could do this week, even from far apart, that would make the other feel a little closer.', duration: '5 minutes', emoji: '🌁' },
+  // TRUST — vulnerability, honesty, and reassurance, built for distance
   { category: 'TRUST', title: 'Say the Doubt', description: 'Share one small insecurity you\'ve had about the relationship or the distance lately — even a silly one. Partner responds with reassurance, not defense.', duration: '6 minutes', emoji: '🫱' },
   { category: 'TRUST', title: 'Open Book Minute', description: 'Give each other 60 seconds to ask literally anything, no dodging. Answer fully, even if it\'s uncomfortable.', duration: '4 minutes', emoji: '📖' },
   { category: 'TRUST', title: 'Show Your Day', description: 'Share your actual calendar or schedule for tomorrow, out loud or on screen. No reason needed — just full visibility.', duration: '3 minutes', emoji: '🗓️' },
@@ -901,9 +958,200 @@ const POOL = [
   { category: 'TRUST', title: 'The Leaving Clause', description: 'Under what circumstances would you leave? Honest talk.', duration: '7 minutes', emoji: '🚪' },
   { category: 'TRUST', title: 'The Forever Question', description: 'Do you see forever with them? Say it or say why not.', duration: '8 minutes', emoji: '♾️' },
 
-  // ==========================================
-  // PLUS18 (80 items) — Explicit, dirty, mature, intimate, no nudes requested, video-call friendly
-  // ==========================================
+  { category: 'TRUST', title: 'Say the Doubt', description: 'Share one small insecurity you\'ve had about the relationship or the distance lately — even a silly one. Partner responds with reassurance, not defense.', duration: '6 minutes', emoji: '🫱' },
+  { category: 'TRUST', title: 'Open Book Minute', description: 'Give each other 60 seconds to ask literally anything, no dodging. Answer fully, even if it\'s uncomfortable.', duration: '4 minutes', emoji: '📖' },
+  { category: 'TRUST', title: 'Show Your Day', description: 'Share your actual calendar or schedule for tomorrow, out loud or on screen. No reason needed — just full visibility.', duration: '3 minutes', emoji: '🗓️' },
+  { category: 'TRUST', title: 'Jealousy, Named', description: 'Name one moment recently you felt a flicker of jealousy or insecurity, however small. Say it plainly and let it be heard without judgment.', duration: '5 minutes', emoji: '🌿' },
+  { category: 'TRUST', title: 'Promise Check-In', description: 'Each name one promise you\'ve made to the other. Say honestly how you\'re doing on it — no excuses, just the truth.', duration: '6 minutes', emoji: '🤝' },
+  { category: 'TRUST', title: 'What I Haven\'t Said', description: 'Share one small thing you\'ve been meaning to bring up but kept putting off. Say it now, gently.', duration: '5 minutes', emoji: '💬' },
+  { category: 'TRUST', title: 'Repair Replay', description: 'Think of your last small disagreement. Each say one thing you\'d do differently if you could replay it.', duration: '6 minutes', emoji: '🔁' },
+  { category: 'TRUST', title: 'Trust Fall, Long-Distance', description: 'Tell them one thing you\'re currently trusting them with — your time, your heart, a decision, anything real.', duration: '4 minutes', emoji: '🍃' },
+  { category: 'TRUST', title: 'Full Access', description: 'Offer to share something you don\'t usually — a location check-in, a screenshot of your messages with a friend about them, anything that says "I have nothing to hide."', duration: '4 minutes', emoji: '🔓' },
+  { category: 'TRUST', title: 'The Long Game', description: 'Talk honestly about one fear either of you has about making this work long-term. Face it together, out loud.', duration: '7 minutes', emoji: '⏳' },
+
+  // PLUS18 — for consenting adult partners only. Never included in
+  // "Surprise us" or other mood mixes; only reachable by explicitly
+  // choosing this category. Flirtatious and suggestive, never explicit.
+  { category: 'PLUS18', title: 'First Meeting Mantra', description: 'Write a personal mantra for staying present during your first meeting. Share why calm matters.', duration: '5 minutes', emoji: '🧘' },
+  { category: 'PLUS18', title: 'Commitment Timeline', description: 'Draft a realistic timeline for your next 3 relationship milestones. No pressure, just planning.', duration: '8 minutes', emoji: '📅' },
+  { category: 'PLUS18', title: 'Vulnerability Vault', description: 'Share one adult fear you have about partnership—finances, health, aging. Let them witness it.', duration: '7 minutes', emoji: '🏦' },
+  { category: 'PLUS18', title: 'The First Fight Plan', description: 'Discuss how you\'ll handle your first real argument when you finally share space.', duration: '8 minutes', emoji: '🥊' },
+  { category: 'PLUS18', title: 'Financial Transparency', description: 'Share your general financial philosophy. Spending, saving, splurging. Adult talk.', duration: '8 minutes', emoji: '💳' },
+  { category: 'PLUS18', title: 'Career vs Love', description: 'Discuss how career moves might affect the relationship. Sacrifices, compromises.', duration: '9 minutes', emoji: '⚖️' },
+  { category: 'PLUS18', title: 'The Moving In Checklist', description: 'Create a shared checklist for eventually cohabitating. Practical and emotional items.', duration: '8 minutes', emoji: '📋' },
+  { category: 'PLUS18', title: 'Family Integration', description: 'Plan how you\'ll introduce each other to family. Timing, concerns, excitement.', duration: '8 minutes', emoji: '👨‍👩‍👧‍👦' },
+  { category: 'PLUS18', title: 'Health History', description: 'Share relevant health history that affects your future. Trust building.', duration: '7 minutes', emoji: '🏥' },
+  { category: 'PLUS18', title: 'The Prenup Discussion', description: 'Discuss views on prenuptial agreements. Practical love is still love.', duration: '7 minutes', emoji: '📄' },
+  { category: 'PLUS18', title: 'Retirement Dreams', description: 'Where do you see yourselves at 65? Active? Traveling? Quiet?', duration: '7 minutes', emoji: '🏖️' },
+  { category: 'PLUS18', title: 'Parenting Philosophy', description: 'Do you want children? If so, how many? When? Adoption? Fostering?', duration: '10 minutes', emoji: '👶' },
+  { category: 'PLUS18', title: 'The Name Change', description: 'Discuss surname choices if you marry. Traditional? Hyphenated? New name?', duration: '6 minutes', emoji: '🏷️' },
+  { category: 'PLUS18', title: 'Religious Upbringing', description: 'How will faith or lack thereof shape your shared life? Holidays? Traditions?', duration: '8 minutes', emoji: '⛪' },
+  { category: 'PLUS18', title: 'Political Alignment', description: 'Discuss core values. Can you disagree respectfully on big issues?', duration: '7 minutes', emoji: '🗳️' },
+  { category: 'PLUS18', title: 'The Five Year Plan', description: 'Map out where you both want to be in 5 years. Career, location, relationship.', duration: '9 minutes', emoji: '🗺️' },
+  { category: 'PLUS18', title: 'Estate Planning', description: 'Have you thought about wills, beneficiaries? Morbid but mature.', duration: '6 minutes', emoji: '📜' },
+  { category: 'PLUS18', title: 'Insurance Talk', description: 'Discuss how you\'d handle insurance together eventually. Practicalities.', duration: '6 minutes', emoji: '🛡️' },
+  { category: 'PLUS18', title: 'The Joint Account', description: 'Would you combine finances? Keep separate? Hybrid approach?', duration: '7 minutes', emoji: '🏦' },
+  { category: 'PLUS18', title: 'Debt Disclosure', description: 'Share your debt situation honestly. Student loans, credit cards, etc.', duration: '6 minutes', emoji: '💰' },
+  { category: 'PLUS18', title: 'Credit Score Reveal', description: 'Share your credit scores. Financial intimacy is intimacy.', duration: '4 minutes', emoji: '📊' },
+  { category: 'PLUS18', title: 'Spending Habits', description: 'Are you a saver or spender? How do you handle money stress?', duration: '6 minutes', emoji: '💸' },
+  { category: 'PLUS18', title: 'The Emergency Fund', description: 'Discuss emergency savings goals. How much feels safe?', duration: '6 minutes', emoji: '🆘' },
+  { category: 'PLUS18', title: 'Investment Strategies', description: 'Do you invest? Stocks? Property? Crypto? Share your approach.', duration: '7 minutes', emoji: '📈' },
+  { category: 'PLUS18', title: 'The Big Purchase', description: 'What\'s the next big thing you\'ll buy? Car? House? Trip?', duration: '6 minutes', emoji: '🏠' },
+  { category: 'PLUS18', title: 'Rent vs Buy', description: 'Do you want to own a home? Or rent forever? Discuss.', duration: '7 minutes', emoji: '🏘️' },
+  { category: 'PLUS18', title: 'The Dream Home', description: 'Describe your ideal shared living space. City? Country? Minimalist?', duration: '7 minutes', emoji: '🏡' },
+  { category: 'PLUS18', title: 'Location Negotiation', description: 'Where would you live if you could choose? Compromise discussion.', duration: '8 minutes', emoji: '🌎' },
+  { category: 'PLUS18', title: 'The Visa Problem', description: 'Discuss immigration realities if applicable. Timelines, lawyers, stress.', duration: '9 minutes', emoji: '🛂' },
+  { category: 'PLUS18', title: 'Citizenship Dreams', description: 'Would you change citizenship for love? What would that mean?', duration: '7 minutes', emoji: '🛂' },
+  { category: 'PLUS18', title: 'Language Learning', description: 'Commit to learning phrases in each other\'s languages. Practice now.', duration: '6 minutes', emoji: '🔤' },
+  { category: 'PLUS18', title: 'Cultural Compromise', description: 'Which traditions will you blend? Which will you keep separate?', duration: '7 minutes', emoji: '🤝' },
+  { category: 'PLUS18', title: 'The Holiday Split', description: 'How will you divide holidays between families when you\'re together?', duration: '7 minutes', emoji: '🎄' },
+  { category: 'PLUS18', title: 'Anniversary Traditions', description: 'What will you do every year to celebrate your anniversary?', duration: '6 minutes', emoji: '💍' },
+  { category: 'PLUS18', title: 'Birthday Expectations', description: 'How do you like to celebrate birthdays? Plan their perfect one.', duration: '6 minutes', emoji: '🎂' },
+  { category: 'PLUS18', title: 'The Apology Language', description: 'How do you need to receive apologies? Words? Actions? Gifts?', duration: '6 minutes', emoji: '🙏' },
+  { category: 'PLUS18', title: 'Conflict Resolution', description: 'Discuss your fighting style. Do you need space? Immediate resolution?', duration: '8 minutes', emoji: '⚔️' },
+  { category: 'PLUS18', title: 'The Silent Treatment', description: 'Is silence okay during conflict? For how long? Set rules.', duration: '6 minutes', emoji: '🤐' },
+  { category: 'PLUS18', title: 'Makeup Rituals', description: 'How do you like to make up after a fight? Physical touch? Words?', duration: '6 minutes', emoji: '🕊️' },
+  { category: 'PLUS18', title: 'The Reset Button', description: 'Create a phrase or gesture that means "let\'s start over" after conflict.', duration: '5 minutes', emoji: '🔄' },
+  { category: 'PLUS18', title: 'Therapy Check', description: 'Are you in therapy? Would you go as a couple? Discuss mental health care.', duration: '7 minutes', emoji: '🛋️' },
+  { category: 'PLUS18', title: 'Medication Disclosure', description: 'Share any medications you take that they should know about.', duration: '5 minutes', emoji: '💊' },
+  { category: 'PLUS18', title: 'The Allergy List', description: 'Exchange full allergy and dietary restriction lists. Serious stuff.', duration: '5 minutes', emoji: '🥜' },
+  { category: 'PLUS18', title: 'Emergency Contacts', description: 'Share emergency contact info. You\'re each other\'s person now.', duration: '4 minutes', emoji: '🚨' },
+  { category: 'PLUS18', title: 'The Medical Proxy', description: 'Would you make medical decisions for each other? Discuss.', duration: '6 minutes', emoji: '🏥' },
+  { category: 'PLUS18', title: 'End of Life Wishes', description: 'What are your wishes for end of life care? Heavy but important.', duration: '7 minutes', emoji: '🕊️' },
+  { category: 'PLUS18', title: 'The Organ Donor Talk', description: 'Are you organ donors? Discuss your wishes.', duration: '5 minutes', emoji: '❤️' },
+  { category: 'PLUS18', title: 'Pet Custody', description: 'If you have pets now or later, what happens if you split?', duration: '6 minutes', emoji: '🐾' },
+  { category: 'PLUS18', title: 'The Plant Parenting', description: 'Test your compatibility by discussing plant care philosophies.', duration: '5 minutes', emoji: '🌱' },
+  { category: 'PLUS18', title: 'Cleaning Standards', description: 'How clean is clean? Discuss expectations for shared spaces.', duration: '6 minutes', emoji: '🧹' },
+  { category: 'PLUS18', title: 'The Chore Chart', description: 'Plan a theoretical chore division. Who does what?', duration: '6 minutes', emoji: '📋' },
+  { category: 'PLUS18', title: 'Meal Planning', description: 'How will you handle meals together? Cook together? Takeout?', duration: '6 minutes', emoji: '🍳' },
+  { category: 'PLUS18', title: 'Grocery Shopping', description: 'Who shops? How often? Discuss the mundane beauty of shared life.', duration: '5 minutes', emoji: '🛒' },
+  { category: 'PLUS18', title: 'The Sleep Schedule', description: 'Are you compatible sleepers? Early bird vs night owl?', duration: '6 minutes', emoji: '😴' },
+  { category: 'PLUS18', title: 'Temperature Wars', description: 'Hot or cold sleeper? Discuss the thermostat battle now.', duration: '5 minutes', emoji: '🌡️' },
+  { category: 'PLUS18', title: 'Blanket Hogging', description: 'Do you steal covers? Admit it now.', duration: '4 minutes', emoji: '🛏️' },
+  { category: 'PLUS18', title: 'The Alarm Clock', description: 'How many alarms do you set? This is compatibility data.', duration: '4 minutes', emoji: '⏰' },
+  { category: 'PLUS18', title: 'Morning Routine', description: 'Walk through your morning routine. Can they handle your chaos?', duration: '6 minutes', emoji: '🌅' },
+  { category: 'PLUS18', title: 'Evening Wind Down', description: 'How do you decompress after work? Quiet? Noise? Activity?', duration: '6 minutes', emoji: '🌙' },
+  { category: 'PLUS18', title: 'The Shower Length', description: 'How long is your shower? Water bill discussions.', duration: '4 minutes', emoji: '🚿' },
+  { category: 'PLUS18', title: 'Bathroom Privacy', description: 'Discuss bathroom door policies. Open or closed relationship?', duration: '5 minutes', emoji: '🚪' },
+  { category: 'PLUS18', title: 'The Toothpaste Squeeze', description: 'Middle or bottom? Dealbreaker discussion.', duration: '3 minutes', emoji: '🪥' },
+  { category: 'PLUS18', title: 'Toilet Seat Position', description: 'Up or down? The eternal debate.', duration: '3 minutes', emoji: '🚽' },
+  { category: 'PLUS18', title: 'The Towel Situation', description: 'How many towels do you use? Shared or separate?', duration: '4 minutes', emoji: '🧖' },
+  { category: 'PLUS18', title: 'Laundry Frequency', description: 'How often do you do laundry? Discuss the pile.', duration: '5 minutes', emoji: '👕' },
+  { category: 'PLUS18', title: 'Folding Techniques', description: 'Show how you fold a shirt. Teach each other.', duration: '5 minutes', emoji: '👔' },
+  { category: 'PLUS18', title: 'The Sock Mystery', description: 'Where do socks go? Discuss the phenomenon.', duration: '4 minutes', emoji: '🧦' },
+  { category: 'PLUS18', title: 'Shoe Policy', description: 'Shoes on or off in the house? Cultural and practical.', duration: '4 minutes', emoji: '👟' },
+  { category: 'PLUS18', title: 'The Junk Drawer', description: 'Show your junk drawer. Everyone has one.', duration: '4 minutes', emoji: '🗄️' },
+  { category: 'PLUS18', title: 'Sentimental Items', description: 'Show one thing you\'d never throw away. Tell its story.', duration: '5 minutes', emoji: '💎' },
+  { category: 'PLUS18', title: 'The Memory Box', description: 'What would go in your relationship memory box?', duration: '5 minutes', emoji: '📦' },
+  { category: 'PLUS18', title: 'Future Scrapbook', description: 'Plan a page for your first year together. What photos? What mementos?', duration: '6 minutes', emoji: '📔' },
+  { category: 'PLUS18', title: 'The Time Capsule', description: 'What would you bury in a time capsule to represent now?', duration: '6 minutes', emoji: '⏳' },
+  { category: 'PLUS18', title: 'Legacy Letter', description: 'Write a letter to your future children or nieces/nephews about love.', duration: '8 minutes', emoji: '✉️' },
+  { category: 'PLUS18', title: 'The Wisdom Share', description: 'What have you learned about love that you wish you knew earlier?', duration: '7 minutes', emoji: '🦉' },
+  { category: 'PLUS18', title: 'Mature Gratitude', description: 'Thank them for handling a recent situation like an adult.', duration: '4 minutes', emoji: '🙏' },
+  { category: 'PLUS18', title: 'The Reset Conversation', description: 'Discuss what "starting fresh" means to you both. Clean slate.', duration: '7 minutes', emoji: '🧼' },
+  { category: 'PLUS18', title: 'Adult Friendship', description: 'How will you maintain friendships while prioritizing the relationship?', duration: '7 minutes', emoji: '👥' },
+  { category: 'PLUS18', title: 'The Alone Time', description: 'How much solitude do you need? Negotiate healthy space.', duration: '7 minutes', emoji: '👤' },
+  { category: 'PLUS18', title: 'Social Battery', description: 'Introvert or extrovert? How will you recharge together and apart?', duration: '6 minutes', emoji: '🔋' },
+  { category: 'PLUS18', title: 'The Public Face', description: 'How do you behave as a couple in public? Discuss PDA comfort levels.', duration: '6 minutes', emoji: '🎭' },
+  { category: 'PLUS18', title: 'Social Media Boundaries', description: 'What\'s private vs public? Posting rules?', duration: '6 minutes', emoji: '📱' },
+  { category: 'PLUS18', title: 'The Ex Encounter', description: 'How would you handle running into an ex together?', duration: '6 minutes', emoji: '👻' },
+  { category: 'PLUS18', title: 'Friend Group Integration', description: 'How will you fit into each other\'s friend groups?', duration: '7 minutes', emoji: '🎉' },
+  { category: 'PLUS18', title: 'The Plus One', description: 'Wedding season approaching? Discuss plus one etiquette.', duration: '5 minutes', emoji: '💒' },
+  { category: 'PLUS18', title: 'Holiday Gift Budget', description: 'Set expectations for gift giving. Avoid awkwardness.', duration: '6 minutes', emoji: '🎁' },
+  { category: 'PLUS18', title: 'The Love Language Audit', description: 'Revisit love languages. Are they still accurate? Evolving?', duration: '7 minutes', emoji: '💝' },
+  { category: 'PLUS18', title: 'Attachment Style Check', description: 'Secure? Anxious? Avoidant? Discuss how you attach.', duration: '8 minutes', emoji: '🔗' },
+  { category: 'PLUS18', title: 'The Enneagram Deep Dive', description: 'Share your Enneagram types. How do they interact under stress?', duration: '8 minutes', emoji: '9️⃣' },
+  { category: 'PLUS18', title: 'The Myers-Briggs', description: 'Share MBTI types. Stereotype yourselves accurately.', duration: '7 minutes', emoji: '🧠' },
+  { category: 'PLUS18', title: 'Love Languages: Physical', description: 'How will you handle physical touch when you finally meet?', duration: '7 minutes', emoji: '✋' },
+  { category: 'PLUS18', title: 'The First Month Plan', description: 'Plan the first month of living together. Realistic expectations.', duration: '9 minutes', emoji: '📅' },
+  { category: 'PLUS18', title: 'The Six Month Review', description: 'Plan a check-in for six months from now. What will you evaluate?', duration: '7 minutes', emoji: '📊' },
+  { category: 'PLUS18', title: 'Annual Relationship Audit', description: 'Commit to yearly check-ins about the relationship health.', duration: '6 minutes', emoji: '📈' },
+  { category: 'PLUS18', title: 'The Growth Plan', description: 'How will you grow together? Not just as a couple, but as individuals?', duration: '8 minutes', emoji: '🌱' },
+  { category: 'PLUS18', title: 'Mature Intimacy', description: 'Discuss what emotional intimacy means to you now vs when you were younger.', duration: '7 minutes', emoji: '💎' },
+  { category: 'PLUS18', title: 'The Adventure List', description: 'List 5 adventures you want to have together in the next year.', duration: '6 minutes', emoji: '✈️' },
+  { category: 'PLUS18', title: 'The Risk Assessment', description: 'What\'s the biggest risk you\'re taking for this love? Is it worth it?', duration: '7 minutes', emoji: '⚠️' },
+  { category: 'PLUS18', title: 'The Safety Net', description: 'What\'s your backup plan if this doesn\'t work? Practical love.', duration: '6 minutes', emoji: '🕸️' },
+  { category: 'PLUS18', title: 'The Leap of Faith', description: 'Discuss the leap you\'re both taking. Acknowledge the fear and the hope.', duration: '7 minutes', emoji: '🦘' },
+  { category: 'PLUS18', title: 'Adult Play', description: 'Plan a "play date" that isn\'t sexual—board games, puzzles, building something.', duration: '6 minutes', emoji: '🎲' },
+  { category: 'PLUS18', title: 'The Intellectual Date', description: 'Plan a debate or deep discussion topic for your next call. Stimulate minds.', duration: '6 minutes', emoji: '🧠' },
+  { category: 'PLUS18', title: 'The Creative Project', description: 'Start a shared creative project. Writing, art, music. Adult collaboration.', duration: '7 minutes', emoji: '🎨' },
+  { category: 'PLUS18', title: 'The Skill Exchange', description: 'Teach each other an adult skill—taxes, cooking, car maintenance.', duration: '8 minutes', emoji: '🔧' },
+  { category: 'PLUS18', title: 'The Book Club', description: 'Read a serious book together. Discuss themes that matter.', duration: '8 minutes', emoji: '📚' },
+  { category: 'PLUS18', title: 'The Documentary Night', description: 'Watch a documentary together. Discuss the implications.', duration: '7 minutes', emoji: '🎬' },
+  { category: 'PLUS18', title: 'The TED Talk', description: 'Each find a TED talk that represents your worldview. Share and discuss.', duration: '8 minutes', emoji: '🎤' },
+  { category: 'PLUS18', title: 'The Podcast Swap', description: 'Exchange favorite podcasts. Listen to one episode of each.', duration: '6 minutes', emoji: '🎙️' },
+  { category: 'PLUS18', title: 'The News Discussion', description: 'Discuss a current event. See how you process information differently.', duration: '7 minutes', emoji: '📰' },
+  { category: 'PLUS18', title: 'The Philosophy Chat', description: 'Discuss a philosophical question. Existential but light.', duration: '8 minutes', emoji: '🤔' },
+  { category: 'PLUS18', title: 'The Ethics Scenario', description: 'Pose an ethical dilemma. How would you handle it?', duration: '7 minutes', emoji: '⚖️' },
+  { category: 'PLUS18', title: 'The Future Self Letter', description: 'Write to your future self about this relationship. Seal it.', duration: '7 minutes', emoji: '✉️' },
+  { category: 'PLUS18', title: 'The Past Self Comfort', description: 'What would you tell your past self about this relationship?', duration: '6 minutes', emoji: '👤' },
+  { category: 'PLUS18', title: 'The Mature Boundary', description: 'Set one boundary that protects your adult self. They agree to honor it.', duration: '6 minutes', emoji: '🚧' },
+  { category: 'PLUS18', title: 'The Negotiation', description: 'Negotiate something like adults. Compromise. Find win-win.', duration: '7 minutes', emoji: '💼' },
+  { category: 'PLUS18', title: 'The Apology Practice', description: 'Practice giving a full, mature apology. No "but"s.', duration: '5 minutes', emoji: '🙇' },
+  { category: 'PLUS18', title: 'The Forgiveness', description: 'Grant forgiveness for something small. Mean it.', duration: '5 minutes', emoji: '✨' },
+  { category: 'PLUS18', title: 'The Trust Fall', description: 'Tell them something you\'ve never told anyone. Watch them keep it.', duration: '6 minutes', emoji: '🤸' },
+  { category: 'PLUS18', title: 'The Secret Keeper', description: 'Become each other\'s vault. Share a secret. Lock it away.', duration: '5 minutes', emoji: '🔐' },
+  { category: 'PLUS18', title: 'The Accountability', description: 'Hold each other accountable for adulting—bills, health, goals.', duration: '6 minutes', emoji: '✅' },
+  { category: 'PLUS18', title: 'The Encouragement', description: 'Encourage their adult goals. Career, fitness, education.', duration: '6 minutes', emoji: '📣' },
+  { category: 'PLUS18', title: 'The Celebration', description: 'Celebrate an adult win—paying off debt, promotion, health milestone.', duration: '5 minutes', emoji: '🎉' },
+  { category: 'PLUS18', title: 'The Comfort', description: 'Comfort them about an adult fear—mortality, failure, loneliness.', duration: '7 minutes', emoji: '🫂' },
+  { category: 'PLUS18', title: 'The Reality Check', description: 'Give each other a gentle reality check about something. Loving honesty.', duration: '6 minutes', emoji: '🔍' },
+  { category: 'PLUS18', title: 'The Perspective Shift', description: 'Help them see a problem from a different angle. Mature advice.', duration: '6 minutes', emoji: '👁️' },
+  { category: 'PLUS18', title: 'The Wisdom Exchange', description: 'Share one piece of adult wisdom you\'ve learned the hard way.', duration: '6 minutes', emoji: '🦉' },
+  { category: 'PLUS18', title: 'The Life Hack', description: 'Teach each other a life hack that makes adulting easier.', duration: '5 minutes', emoji: '💡' },
+  { category: 'PLUS18', title: 'The Routine Share', description: 'Share your daily routine. Find compatibility in the mundane.', duration: '6 minutes', emoji: '📋' },
+  { category: 'PLUS18', title: 'The Efficiency Tip', description: 'How do you stay organized? Share systems.', duration: '5 minutes', emoji: '⚙️' },
+  { category: 'PLUS18', title: 'The Calendar Sync', description: 'Share calendars for the week. See where life overlaps.', duration: '5 minutes', emoji: '📅' },
+  { category: 'PLUS18', title: 'The Goal Setting', description: 'Set one shared goal for the month. Track it together.', duration: '6 minutes', emoji: '🎯' },
+  { category: 'PLUS18', title: 'The Vision Board', description: 'Create a digital vision board for your future together.', duration: '8 minutes', emoji: '🖼️' },
+  { category: 'PLUS18', title: 'The Manifestation', description: 'Speak your shared future into existence. Be specific.', duration: '6 minutes', emoji: '✨' },
+  { category: 'PLUS18', title: 'The Affirmation', description: 'Give each other adult affirmations—not just "you\'re pretty" but "you\'re capable."', duration: '5 minutes', emoji: '💪' },
+  { category: 'PLUS18', title: 'The Respect Moment', description: 'Acknowledge one way they\'ve shown you respect recently.', duration: '4 minutes', emoji: '🙌' },
+  { category: 'PLUS18', title: 'The Equality Check', description: 'Is the relationship balanced? Discuss equity.', duration: '7 minutes', emoji: '⚖️' },
+  { category: 'PLUS18', title: 'The Partnership', description: 'Discuss what partnership means to you. Equals? Complementary?', duration: '7 minutes', emoji: '🤝' },
+  { category: 'PLUS18', title: 'The Team', description: 'You\'re a team now. What\'s your team name? Your strategy?', duration: '6 minutes', emoji: '🏆' },
+  { category: 'PLUS18', title: 'The Contract', description: 'Write a humorous but real relationship contract. Terms and conditions.', duration: '8 minutes', emoji: '📝' },
+  { category: 'PLUS18', title: 'The Amendment', description: 'Amend the contract. Relationships evolve.', duration: '5 minutes', emoji: '✏️' },
+  { category: 'PLUS18', title: 'The Renewal', description: 'Renew your commitment to each other. Even if it\'s early.', duration: '6 minutes', emoji: '💍' },
+  { category: 'PLUS18', title: 'The Upgrade', description: 'How can you upgrade your relationship? Better communication? More fun?', duration: '7 minutes', emoji: '⬆️' },
+  { category: 'PLUS18', title: 'The Maintenance', description: 'What does relationship maintenance look like? Regular check-ins?', duration: '6 minutes', emoji: '🔧' },
+  { category: 'PLUS18', title: 'The Warranty', description: 'What\'s your warranty policy? How do you fix things when they break?', duration: '6 minutes', emoji: '🛠️' },
+  { category: 'PLUS18', title: 'The Instruction Manual', description: 'Write an instruction manual for yourself. How to love you.', duration: '8 minutes', emoji: '📘' },
+  { category: 'PLUS18', title: 'The Troubleshooting', description: 'Troubleshoot a recurring issue in the relationship. Fix it.', duration: '8 minutes', emoji: '🔍' },
+  { category: 'PLUS18', title: 'The Update', description: 'Give a software update on your emotional state. Version 2.0?', duration: '5 minutes', emoji: '💾' },
+  { category: 'PLUS18', title: 'The Backup Plan', description: 'What if technology fails? Plan analog ways to connect.', duration: '5 minutes', emoji: '💾' },
+  { category: 'PLUS18', title: 'The Security Protocol', description: 'How do you keep each other emotionally safe? Set protocols.', duration: '6 minutes', emoji: '🔒' },
+  { category: 'PLUS18', title: 'The Firewall', description: 'What protects your relationship from outside threats? Discuss.', duration: '6 minutes', emoji: '🛡️' },
+  { category: 'PLUS18', title: 'The Password', description: 'Share your "password" to your heart. What unlocks you?', duration: '5 minutes', emoji: '🔑' },
+  { category: 'PLUS18', title: 'The Encryption', description: 'What do you keep encrypted? Private even from them? Discuss privacy needs.', duration: '6 minutes', emoji: '🔐' },
+  { category: 'PLUS18', title: 'The Cloud Storage', description: 'Where do you store your memories? Back them up together.', duration: '5 minutes', emoji: '☁️' },
+  { category: 'PLUS18', title: 'The Algorithm', description: 'What\'s your love algorithm? How do you make decisions together?', duration: '6 minutes', emoji: '🧮' },
+  { category: 'PLUS18', title: 'The Data Analysis', description: 'Analyze your relationship data. What patterns do you see?', duration: '6 minutes', emoji: '📊' },
+  { category: 'PLUS18', title: 'The Metrics', description: 'What metrics matter? Happiness? Growth? Stability?', duration: '6 minutes', emoji: '📈' },
+  { category: 'PLUS18', title: 'The KPIs', description: 'Key performance indicators for your relationship. What\'s success?', duration: '6 minutes', emoji: '🎯' },
+  { category: 'PLUS18', title: 'The Quarterly Review', description: 'Quarterly business meeting for your relationship. Agenda: love.', duration: '7 minutes', emoji: '💼' },
+  { category: 'PLUS18', title: 'The Annual Report', description: 'Year one annual report. Highlights, lowlights, projections.', duration: '8 minutes', emoji: '📑' },
+  { category: 'PLUS18', title: 'The Board Meeting', description: 'You\'re the board of directors for your future. Make decisions.', duration: '7 minutes', emoji: '🏢' },
+  { category: 'PLUS18', title: 'The Stakeholders', description: 'Who are the stakeholders in your relationship? Family? Friends?', duration: '6 minutes', emoji: '👥' },
+  { category: 'PLUS18', title: 'The Merger', description: 'Discuss the merger of your lives. Due diligence required.', duration: '7 minutes', emoji: '🤝' },
+  { category: 'PLUS18', title: 'The Acquisition', description: 'What are you acquiring in this relationship? Giving up?', duration: '6 minutes', emoji: '💼' },
+  { category: 'PLUS18', title: 'The IPO', description: 'Going public with your love. When and how to tell the world?', duration: '6 minutes', emoji: '📢' },
+  { category: 'PLUS18', title: 'The Shares', description: 'Who owns what percentage of the emotional labor? Balance sheet.', duration: '6 minutes', emoji: '📊' },
+  { category: 'PLUS18', title: 'The Dividends', description: 'What are the dividends of this relationship? What returns do you see?', duration: '6 minutes', emoji: '💰' },
+  { category: 'PLUS18', title: 'The Investment', description: 'You\'re investing in each other. What\'s the ROI?', duration: '6 minutes', emoji: '📈' },
+  { category: 'PLUS18', title: 'The Risk Management', description: 'Manage the risks of long distance. Mitigation strategies.', duration: '7 minutes', emoji: '⚠️' },
+  { category: 'PLUS18', title: 'The Insurance Policy', description: 'What\'s your insurance against heartbreak? Strong friendship?', duration: '6 minutes', emoji: '🛡️' },
+  { category: 'PLUS18', title: 'The Exit Strategy', description: 'Mature discussion: if this ends, how do you want it to look?', duration: '7 minutes', emoji: '🚪' },
+  { category: 'PLUS18', title: 'The Succession Plan', description: 'If you break up, who gets the friends? The dog? Discuss.', duration: '6 minutes', emoji: '👑' },
+  { category: 'PLUS18', title: 'The Legacy', description: 'What\'s the legacy of this relationship? What will you leave behind?', duration: '7 minutes', emoji: '🏛️' },
+  { category: 'PLUS18', title: 'The Archive', description: 'Archive your relationship history. Save the important moments.', duration: '6 minutes', emoji: '📦' },
+  { category: 'PLUS18', title: 'The Museum', description: 'Curate a museum of your relationship. What exhibits?', duration: '6 minutes', emoji: '🏛️' },
+  { category: 'PLUS18', title: 'The Time Capsule', description: 'Bury a virtual time capsule. Open it in one year.', duration: '6 minutes', emoji: '⏳' },
+  { category: 'PLUS18', title: 'The History Book', description: 'Write the table of contents for your relationship biography.', duration: '7 minutes', emoji: '📖' },
+  { category: 'PLUS18', title: 'The Documentary', description: 'If someone made a documentary about your love, what would be the title?', duration: '5 minutes', emoji: '🎬' },
+  { category: 'PLUS18', title: 'The Biopic', description: 'Who would play you in the movie of your life? Who plays them?', duration: '5 minutes', emoji: '🎭' },
+  { category: 'PLUS18', title: 'The Soundtrack', description: 'What songs are on the soundtrack of your relationship?', duration: '6 minutes', emoji: '🎵' },
+  { category: 'PLUS18', title: 'The Credits', description: 'Roll the credits. Who do you thank for getting you here?', duration: '5 minutes', emoji: '🎞️' },
   { category: 'PLUS18', title: 'Rate the Tension', description: 'Rate the chemistry on your last call from 1–10 and say exactly which moment earned that number.', duration: '4 minutes', emoji: '🔥' },
   { category: 'PLUS18', title: 'One Line Fantasy', description: 'Each describe, in one suggestive sentence, something you\'d want to do together the first night you\'re finally in the same place.', duration: '4 minutes', emoji: '💋' },
   { category: 'PLUS18', title: 'Slow Reveal', description: 'Take turns describing what you\'re wearing right now like it\'s the opening line of a story. Keep it playful, not a script.', duration: '3 minutes', emoji: '😏' },
@@ -912,76 +1160,6 @@ const POOL = [
   { category: 'PLUS18', title: 'Compliment, Unfiltered', description: 'Give one physical compliment you\'d normally feel shy about saying out loud. No deflecting it — just say thank you.', duration: '3 minutes', emoji: '💌' },
   { category: 'PLUS18', title: 'The List', description: 'Each name one thing, playful or bold, you want to try together once the distance is gone. Keep a running shared note.', duration: '5 minutes', emoji: '📝' },
   { category: 'PLUS18', title: 'Tease and Confess', description: 'Send one teasing text, then immediately confess what you actually meant by it. Repeat twice.', duration: '4 minutes', emoji: '😘' },
-  { category: 'PLUS18', title: 'Dirty Talk Tutorial', description: 'Teach them exactly how you like to be talked to. Give them lines to practice.', duration: '7 minutes', emoji: '🎓' },
-  { category: 'PLUS18', title: 'The Voice Note Moan', description: 'Send a voice note of you moaning their name. Nothing else.', duration: '2 minutes', emoji: '🎙️' },
-  { category: 'PLUS18', title: 'Masturbation Description', description: 'Describe exactly how you touch yourself when you think about them. Detailed.', duration: '8 minutes', emoji: '✋' },
-  { category: 'PLUS18', title: 'The Orgasm Count', description: 'Tell them how many times you\'ve gotten off thinking about them this week.', duration: '4 minutes', emoji: '💦' },
-  { category: 'PLUS18', title: 'Fantasy Roleplay', description: 'Pick a scenario: teacher/student, boss/employee, strangers. Improvise for 10 minutes.', duration: '12 minutes', emoji: '🎭' },
-  { category: 'PLUS18', title: 'The Command', description: 'Give them one explicit command to follow right now on camera. They obey or safeword.', duration: '6 minutes', emoji: '👑' },
-  { category: 'PLUS18', title: 'The Dirty Story', description: 'Tell them a detailed story about your first night together. Make it graphic.', duration: '10 minutes', emoji: '📖' },
-  { category: 'PLUS18', title: 'Kink Disclosure', description: 'Share one kink or fetish you want to explore. Describe it in detail.', duration: '8 minutes', emoji: '🔗' },
-  { category: 'PLUS18', title: 'BDSM Test Results', description: 'Take an online BDSM test together. Discuss your results.', duration: '10 minutes', emoji: '📊' },
-  { category: 'PLUS18', title: 'The Safeword', description: 'Establish safewords. Red, yellow, green. Discuss what each means.', duration: '5 minutes', emoji: '🛑' },
-  { category: 'PLUS18', title: 'The Spanking Talk', description: 'Discuss impact play. Hard limits? Curiosities?', duration: '7 minutes', emoji: '👋' },
-  { category: 'PLUS18', title: 'The Bondage Basics', description: 'Talk about restraint. What appeals? Rope, cuffs, scarves?', duration: '7 minutes', emoji: '🪢' },
-  { category: 'PLUS18', title: 'The Power Dynamic', description: 'Discuss D/s dynamics. Are you switch, dom, sub? Test the waters.', duration: '8 minutes', emoji: '⚡' },
-  { category: 'PLUS18', title: 'The Dirty Dictionary', description: 'Define your favorite dirty words. What do they mean to you?', duration: '6 minutes', emoji: '📕' },
-  { category: 'PLUS18', title: 'Phone Sex 101', description: 'Have explicit phone sex. Describe everything you\'re doing.', duration: '15 minutes', emoji: '📞' },
-  { category: 'PLUS18', title: 'Video Sex', description: 'Mutual masturbation on camera. Watch each other.', duration: '15 minutes', emoji: '👀' },
-  { category: 'PLUS18', title: 'The Striptease', description: 'Give them a full striptease. Take your time.', duration: '8 minutes', emoji: '💃' },
-  { category: 'PLUS18', title: 'The Lap Dance', description: 'Give them a lap dance on camera. Grind for them.', duration: '6 minutes', emoji: '🍑' },
-  { category: 'PLUS18', title: 'The Burlesque Show', description: 'Perform burlesque. Feather boas, gloves, slow removal.', duration: '7 minutes', emoji: '🎪' },
-  { category: 'PLUS18', title: 'The Wet T-Shirt', description: 'Get a white shirt wet. Show them.', duration: '4 minutes', emoji: '💧' },
-  { category: 'PLUS18', title: 'The Oil Show', description: 'Massage oil into your skin on camera. Slowly.', duration: '6 minutes', emoji: '🧴' },
-  { category: 'PLUS18', title: 'The Shower Show', description: 'Take your phone to the shower. Show them the steam.', duration: '5 minutes', emoji: '🚿' },
-  { category: 'PLUS18', title: 'The Bath Time', description: 'Take a bath together on camera. Show the bubbles.', duration: '8 minutes', emoji: '🛁' },
-  { category: 'PLUS18', title: 'The Towel Drop', description: 'Drop your towel dramatically. Hold the pose.', duration: '3 minutes', emoji: '🧖' },
-  { category: 'PLUS18', title: 'The Mirror Pose', description: 'Pose in front of a mirror. Show them your reflection.', duration: '4 minutes', emoji: '🪞' },
-  { category: 'PLUS18', title: 'The Close-Up', description: 'Give them an extreme close-up of your favorite body part.', duration: '3 minutes', emoji: '🔍' },
-  { category: 'PLUS18', title: 'The Spread', description: 'Show them everything. Camera positioned perfectly.', duration: '5 minutes', emoji: '🌸' },
-  { category: 'PLUS18', title: 'The Touch Tutorial', description: 'Show them exactly how you like to be touched. Demonstrate on yourself.', duration: '8 minutes', emoji: '👆' },
-  { category: 'PLUS18', title: 'The Toy Show', description: 'Show them your favorite toy. Describe how you use it.', duration: '6 minutes', emoji: '🧸' },
-  { category: 'PLUS18', title: 'The Insertion', description: 'Show them slow insertion of fingers or toy. Describe the feeling.', duration: '7 minutes', emoji: '👉' },
-  { category: 'PLUS18', title: 'The Climax', description: 'Get off together. Synchronize your orgasms if you can.', duration: '10 minutes', emoji: '💥' },
-  { category: 'PLUS18', title: 'The Afterglow', description: 'Bask in the afterglow together. Heavy breathing, sweet nothings.', duration: '5 minutes', emoji: '☁️' },
-  { category: 'PLUS18', title: 'The Dirty Confession', description: 'Confess your dirtiest thought about them from this week.', duration: '5 minutes', emoji: '⛪' },
-  { category: 'PLUS18', title: 'The Size Discussion', description: 'Talk about size preferences honestly. What works for you?', duration: '6 minutes', emoji: '📏' },
-  { category: 'PLUS18', title: 'The Oral Description', description: 'Describe exactly how you\'ll go down on them. Step by step.', duration: '8 minutes', emoji: '👅' },
-  { category: 'PLUS18', title: 'The Position Plan', description: 'Discuss favorite positions. Which ones for first time?', duration: '7 minutes', emoji: '🍑' },
-  { category: 'PLUS18', title: 'The Anal Discussion', description: 'Discuss anal play. Curious? Hard limit? Experienced?', duration: '7 minutes', emoji: '🍑' },
-  { category: 'PLUS18', title: 'The Toy Shopping', description: 'Shop for toys together online. Pick what you\'ll use.', duration: '10 minutes', emoji: '🛒' },
-  { category: 'PLUS18', title: 'The Lingerie Show', description: 'Model lingerie or underwear. Multiple outfits.', duration: '8 minutes', emoji: '👙' },
-  { category: 'PLUS18', title: 'The Naked Cooking', description: 'Cook something simple while naked. Show the process.', duration: '10 minutes', emoji: '🍳' },
-  { category: 'PLUS18', title: 'The Naked Cleaning', description: 'Clean your room naked. They watch.', duration: '8 minutes', emoji: '🧹' },
-  { category: 'PLUS18', title: 'The Yoga Naked', description: 'Do naked yoga. Show the poses.', duration: '8 minutes', emoji: '🧘' },
-  { category: 'PLUS18', title: 'The Reading Naked', description: 'Read erotica to them while naked.', duration: '8 minutes', emoji: '📖' },
-  { category: 'PLUS18', title: 'The Writing Erotica', description: 'Write a paragraph of erotica starring you two. Read it.', duration: '7 minutes', emoji: '✍️' },
-  { category: 'PLUS18', title: 'The Dirty Jokes', description: 'Tell only R-rated jokes. Make them filthy.', duration: '6 minutes', emoji: '😂' },
-  { category: 'PLUS18', title: 'The Pickup Lines Dirty', description: 'Dirty pickup lines only. See who cracks first.', duration: '5 minutes', emoji: '😏' },
-  { category: 'PLUS18', title: 'The Sexy Would You Rather', description: 'Would you rather questions with sexual scenarios.', duration: '8 minutes', emoji: '🤔' },
-  { category: 'PLUS18', title: 'The Sexy Never Have I Ever', description: 'Never have I ever with sexual experiences.', duration: '10 minutes', emoji: '🍑' },
-  { category: 'PLUS18', title: 'The Truth or Dare Adult', description: 'Truth or dare with explicit dares.', duration: '12 minutes', emoji: '🎯' },
-  { category: 'PLUS18', title: 'The Strip Poker', description: 'Play poker. Loser removes clothes.', duration: '15 minutes', emoji: '🃏' },
-  { category: 'PLUS18', title: 'The Strip Blackjack', description: 'Play blackjack. Cards decide the stripping.', duration: '15 minutes', emoji: '🂡' },
-  { category: 'PLUS18', title: 'The Dice Game', description: 'Roll dice. Each number corresponds to a sexual act.', duration: '10 minutes', emoji: '🎲' },
-  { category: 'PLUS18', title: 'The Spin the Bottle', description: 'Spin a virtual bottle. Where it lands determines the act.', duration: '8 minutes', emoji: '🍾' },
-  { category: 'PLUS18', title: 'The Seven Minutes', description: 'Seven minutes in heaven, video call style.', duration: '8 minutes', emoji: '⏰' },
-  { category: 'PLUS18', title: 'The Body Shot', description: 'Take a shot off your own body. Show them.', duration: '4 minutes', emoji: '🥃' },
-  { category: 'PLUS18', title: 'The Whipped Cream', description: 'Put whipped cream somewhere. Lick it off.', duration: '5 minutes', emoji: '🍦' },
-  { category: 'PLUS18', title: 'The Chocolate Sauce', description: 'Drizzle chocolate. Taste it.', duration: '5 minutes', emoji: '🍫' },
-  { category: 'PLUS18', title: 'The Ice Cube', description: 'Run an ice cube over your body. Show the reaction.', duration: '4 minutes', emoji: '🧊' },
-  { category: 'PLUS18', title: 'The Hot Wax', description: 'Drip candle wax if you\'re into it. Discuss first.', duration: '5 minutes', emoji: '🕯️' },
-  { category: 'PLUS18', title: 'The Spanking Self', description: 'Spank yourself on camera. Count the strokes.', duration: '4 minutes', emoji: '👋' },
-  { category: 'PLUS18', title: 'The Nipple Play', description: 'Play with your nipples on camera. Show what you like.', duration: '5 minutes', emoji: '👆' },
-  { category: 'PLUS18', title: 'The Edging', description: 'Edge yourself. Stop right before. Tell them when.', duration: '8 minutes', emoji: '🛑' },
-  { category: 'PLUS18', title: 'The Denial', description: 'Deny yourself orgasm until they say you can come.', duration: '10 minutes', emoji: '🚫' },
-  { category: 'PLUS18', title: 'The Permission', description: 'Beg for permission to come. They decide.', duration: '7 minutes', emoji: '🙏' },
-  { category: 'PLUS18', title: 'The Praise Kink', description: 'Give excessive praise while they touch themselves.', duration: '8 minutes', emoji: '👏' },
-  { category: 'PLUS18', title: 'The Degradation', description: 'If you\'re into it, light degradation talk. Discuss limits first.', duration: '7 minutes', emoji: '🗣️' },
-  { category: 'PLUS18', title: 'The Pet Play', description: 'Discuss pet play dynamics. Curious or not?', duration: '7 minutes', emoji: '🐾' },
-  { category: 'PLUS18', title: 'The Age Play', description: 'Discuss age play if relevant. Boundaries important.', duration: '7 minutes', emoji: '👶' },
-  { category: 'PLUS18', title: 'The Exhibitionism', description: 'Discuss exhibitionist tendencies. Showing off for each other.', duration: '6 minutes', emoji: '👀' },
-  { category: 'PLUS18', title: 'The Voyeurism', description: 'Discuss watching each other. What do you like to see?', duration: '6 minutes', emoji: '🕵️' },
 ]
 
 const MOOD_MAP = {
@@ -1085,9 +1263,14 @@ export async function generateActivity({ mood = null, avoidTitles = [] } = {}) {
     if (live.category === 'PLUS18' && mood !== 'plus18') {
       return pickFromPool(mood, avoidTitles)
     }
+    // If a specific mood was picked, the displayed category must match it —
+    // the model doesn't always self-label consistently with what it was asked
+    // for, which is why "select Sweet, get labeled Romantic" could happen.
+    if (mood && MOOD_MAP[mood]) {
+      return { ...live, category: MOOD_MAP[mood] }
+    }
     return live
   }
 
   return pickFromPool(mood, avoidTitles)
 }
-```
