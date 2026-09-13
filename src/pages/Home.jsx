@@ -27,6 +27,8 @@ const MOODS = [
   { id: 'competitive', label: 'Competitive' },
   { id: 'spicy', label: 'Spicy' },
   { id: 'distance', label: 'Distance' },
+  { id: 'trust', label: 'Trust' },
+  { id: 'plus18', label: '+18' },
 ]
 
 export default function Home() {
@@ -62,6 +64,17 @@ export default function Home() {
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
+
+  function selectMood(id) {
+    if (id === 'plus18' && !sessionStorage.getItem('ros_plus18_ack')) {
+      const ok = confirm(
+        "This category has flirtier, more intimate prompts for the two of you. Only continue if you're both comfortable — anyone with access to this screen will see it too. Continue?"
+      )
+      if (!ok) return
+      sessionStorage.setItem('ros_plus18_ack', '1')
+    }
+    setMood(id)
+  }
 
   useEffect(() => {
     if (!partnerJoined) return
@@ -295,10 +308,12 @@ export default function Home() {
                 {MOODS.map((m) => (
                   <button
                     key={m.label}
-                    onClick={() => setMood(m.id)}
+                    onClick={() => selectMood(m.id)}
                     className={`px-3.5 py-1.5 rounded-full text-sm transition-all ${
                       mood === m.id
                         ? 'bg-[#1ED760] text-black font-medium'
+                        : m.id === 'plus18'
+                        ? 'bg-white/5 text-[#F472B6] hover:bg-white/10'
                         : 'bg-white/5 text-[#A1A1AA] hover:bg-white/10 hover:text-white'
                     }`}
                   >
